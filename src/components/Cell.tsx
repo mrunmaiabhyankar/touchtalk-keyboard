@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
-interface MotionDetectionProps {
+interface KeyboardCellProps {
     letters?: string[]
     ariaLabel?: string
     onLetterSelected?: (letter: string, cellIndex: number) => void
@@ -10,7 +10,7 @@ interface MotionDetectionProps {
     doesTap?: boolean
 }
 
-const MotionDetection: React.FC<MotionDetectionProps> = ({
+const KeyboardCell: React.FC<KeyboardCellProps> = ({
     letters = ["A", "B", "C", "D"],
     ariaLabel = "ABCD",
     onLetterSelected,
@@ -20,7 +20,6 @@ const MotionDetection: React.FC<MotionDetectionProps> = ({
 }) => {
     const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
     const [currentAriaLabel, setCurrentAriaLabel] = useState(ariaLabel)
-    let bgcolor = "#292929"
 
     const handleDrag = (_event: any, info: any) => {
         const { offset } = info
@@ -68,7 +67,7 @@ const MotionDetection: React.FC<MotionDetectionProps> = ({
 
     const handleClick = () => {
         if (doesTap && onLetterSelected) {
-            bgcolor = "#000000"
+            
             onLetterSelected(letters[0], 0)
             const liveRegion = document.getElementById("live-region")
             if (liveRegion) {
@@ -110,30 +109,32 @@ const MotionDetection: React.FC<MotionDetectionProps> = ({
     return (
         <div
             tabIndex={0}
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "100%",
-                border: "1px solid #8C8C8C",
-            }}
+            // style={{
+            //     display: "flex",
+            //     flexDirection: "column",
+            //     justifyContent: "space-between",
+            //     height: "100%",
+            //     border: "1px solid #8C8C8C",
+            // }}
+            className="cell"
         >
             {content === "single" ? (
                 <div
                     aria-label={ariaLabel}
                     tabIndex={0}
                     onClick={handleClick}
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100%",
-                        height: "100%",
-                        fontSize: "16pt",
-                        fontWeight: "bold",
-                        color: "#ffffff",
-                        background: bgcolor,
-                    }}
+                    className="cell-single"
+                    // style={{
+                    //     display: "flex",
+                    //     justifyContent: "center",
+                    //     alignItems: "center",
+                    //     width: "100%",
+                    //     height: "100%",
+                    //     fontSize: "16pt",
+                    //     fontWeight: "bold",
+                    //     color: "#ffffff",
+                    //     // background: bgcolor,
+                    // }}
                 >
                     {letters[0]}
                 </div>
@@ -149,35 +150,38 @@ const MotionDetection: React.FC<MotionDetectionProps> = ({
                     onClick={doesTap ? handleClick : () => {}}
                     tabIndex={0}
                     aria-label={currentAriaLabel}
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        alignItems: "stretch",
-                        width: "100%",
-                        height: "100%",
-                        border: "1px solid #8C8C8C",
-                        fontFamily: "Arial",
-                        fontWeight: "bold",
-                        color: "#ffffff",
-                        textTransform: "uppercase",
-                        background: "#292929",
-                        fontSize: "16pt",
-                        padding: "5vw",
-                    }}
+                    className="cell-multiple"
+                    // style={{
+                    //     flex: 1,
+                    //     display: "flex",
+                    //     flexDirection: "column",
+                    //     justifyContent: "space-between",
+                    //     alignItems: "stretch",
+                    //     width: "100%",
+                    //     height: "100%",
+                    //     border: "1px solid #8C8C8C",
+                    //     fontFamily: "Arial",
+                    //     fontWeight: "bold",
+                    //     color: "#ffffff",
+                    //     textTransform: "uppercase",
+                    //     background: "#292929",
+                    //     fontSize: "16pt",
+                    //     padding: "5vw",
+                    // }}
                 >
                     <div
                         aria-hidden="true"
                         tabIndex={-1}
-                        style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}
+                        className="cell-row"
+                        // style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}
                     >
                         <div>{letters[1]}</div>
                     </div>
                     <div
                         aria-hidden="true"
                         tabIndex={-1}
-                        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1 }}
+                        className="cell-row-middle"
+                        // style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1 }}
                     >
                         <div>{letters[0]}</div>
                         <div>{letters[2]}</div>
@@ -185,7 +189,8 @@ const MotionDetection: React.FC<MotionDetectionProps> = ({
                     <div
                         aria-hidden="true"
                         tabIndex={-1}
-                        style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}
+                        className="cell-row"
+                        // style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}
                     >
                         <div>{letters[3]}</div>
                     </div>
@@ -195,4 +200,4 @@ const MotionDetection: React.FC<MotionDetectionProps> = ({
     )
 }
 
-export default MotionDetection
+export default KeyboardCell

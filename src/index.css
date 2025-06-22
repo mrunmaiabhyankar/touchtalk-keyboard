@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,217 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+:root {
+  --bg-dark: #1a1a1a;
+  --text-light: #ffffff;
+  --text-mid: #d1d1d1;
+  --primary: #e8ecf6;
+  --cell-border: #666666;
+  --font-main: 'Inter', sans-serif;
+
+  /* Font sizes */
+  --font-size-base: 1em; /* or use clamp for responsive scaling */
+  --font-size-small: 0.875em;
+  --font-size-large: 1.125em;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
 }
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+/* Make page full height */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  
+}
+
+.top-section {
+  height: 50vh;
+  max-height: 50vh;
+  overflow-y: auto; /* scroll if content exceeds */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-dark, #1a1a1a);
+  color: var(--text-light, #ffffff);
+  /* font-family: Arial, sans-serif; */
+  border-bottom: 0.5px solid var(--cell-border, #666);
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  /* flex-grow: 1; */
+
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-light, #ffffff);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* Description box */
+.description-box {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem;
+  font-size: 1rem;
+  color: var(--text-mid);
+}
+
+.phrase-text{
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  padding: 1rem;
+  height: 50%;
+  max-height: 50%;
+  font-size: 2rem;
+  color: var(--text-light);
+  margin: 3rem 3 rem;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.5;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Button */
+button {
+  background-color: var(--primary);
+  color: #000;
+  font-size: 1rem;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+button:hover {
+  background-color: #d4dae9;
+  color: #000;
+}
+
+/* Text box to show typed word */
+.text-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #8c8c8c;
+  padding: 1rem;
+  background-color: #292929;
+  height: 6vh;
+  overflow-y: hidden;
+  
+}
+
+/* Keyboard Grid */
+.keyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 1rem;
+  background-color: var(--bg-dark);
+  height: 50vh;
+  max-height: 50vh;
+}
+
+/* Base Cell */
+.cell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--cell-border, #8C8C8C);
+  color: var(--text-light, #ffffff);
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  /* text-transform: uppercase; */
+  user-select: none;
+  padding: 3vw;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Single content layout */
+.cell-single {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em; /* responsive font */
+  text-align: center;
+  height: 100%;
+}
+
+.cell-multiple {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 100%;
+}
+
+/* Each row takes equal space */
+.cell-row {
+  flex: 1;
+  display: flex;
+  /* width: 100%; */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center row with left + right letters */
+.cell-row-middle {
+  flex: 1;
+  display: flex;
+  /* width: 100%; */
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Text Field (Login screen input) */
+.text-field {
+  width: 80%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+  background-color: #2c2c2c;
+  color: #fff;
+  margin-top: 2rem;
+}
+

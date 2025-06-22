@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react"
-import MotionDetection from "./Cell"
-// @ts-ignore
-// import { addPropertyControls, ControlType } from "framer"
+import KeyboardCell from "./Cell"
+import TextBox from "./TextBox"
+import {
+    reportCharacterError,
+    reportTaskCompleted,
+    reportTimeOnTask,
+    reportErrorRate,
+} from "../utils/analyticsFunctions"
 
 declare global {
     interface Window {
@@ -12,7 +17,7 @@ export {}
 
 interface KeyboardGridProps {
     onTextUpdate?: (text: string) => void
-    variant?: "default" | "gridLayout" | "gestures"
+    variant?: "default" | "gridLayout" | "singleCell"
     content?: "single" | "multiple"
     nextPageLink?: string
     doesTap?: boolean
@@ -38,29 +43,10 @@ export default function KeyboardGrid({
     const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"]
     const taskId = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0
 
-    useEffect(() => {
-        const updateHeight = () => {
-            const safeTop = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-top")) || 0
-            const safeBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-bottom")) || 0
-            const visibleHeight = window.innerHeight
-            const adjustedHeight = visibleHeight - safeTop - safeBottom
-            setHeight(`${adjustedHeight / 2}px`)
-        }
-
-        updateHeight()
-        window.addEventListener("resize", updateHeight)
-        return () => window.removeEventListener("resize", updateHeight)
-    }, [])
-
     const handleCharacterInput = (inputChar: string, expectedChar: string) => {
         if (inputChar !== expectedChar && inputChar !== "⌫") {
             setErrors(prev => prev + 1)
-            window.gtag?.("event", "error_character", {
-                event_category: "Task Interaction",
-                event_label: inputChar,
-                value: 1,
-                task_id: taskId,
-            })
+            reportCharacterError(inputChar, taskId)
         }
     }
 
@@ -70,24 +56,22 @@ export default function KeyboardGrid({
         setTaskStartTime(Date.now())
     }, [])
 
+    // Callback function for swipe gestures
+    const handleSwipe = () => {
+        if (variant === "singleCell") {
+            setSwipeCount((prev) => prev + 1) // Increment swipe count
+            console.log(swipeCount)
+        }
+    }
+
     const completeTask = (success: boolean) => {
-        window.gtag?.("event", "task_completed", {
-            event_category: "Task Performance",
-            event_label: `Task ${taskId} complete: ${success}`,
-            value: 1,
-            task_id: taskId,
-        })
+        reportTaskCompleted(success, taskId)
     }
 
     const endTask = () => {
         if (taskStartTime) {
             const duration = (Date.now() - taskStartTime) / 1000
-            window.gtag?.("event", "time_on_task", {
-                event_category: "Task Interaction",
-                event_label: "Task duration",
-                value: duration,
-                task_id: taskId,
-            })
+            reportTimeOnTask(duration, taskId)
         }
     }
 
@@ -126,7 +110,7 @@ export default function KeyboardGrid({
                 break
         }
 
-        if (variant === "gestures") setSwipeCount(prev => prev + 1)
+        if (variant === "singleCell") setSwipeCount(prev => prev + 1)
         setText(newText)
         onTextUpdate?.(newText)
     }
@@ -134,7 +118,7 @@ export default function KeyboardGrid({
     const shouldShowContinueButton = () => {
         switch (variant) {
             case "gridLayout": return pressedCells.length === 9
-            case "gestures": return swipeCount >= 4
+            case "singleCell": return swipeCount >= 4
             default: return text.trim().length > 0
         }
     }
@@ -142,12 +126,7 @@ export default function KeyboardGrid({
     const onNextTask = () => {
         const expectedLength = taskWord.length
         const errorRate = (errors / expectedLength) * 100
-        window.gtag?.("event", "error_rate", {
-            event_category: "Task Performance",
-            event_label: `Task ${taskId}`,
-            value: errors,
-            task_id: taskId,
-        })
+        reportErrorRate(errorRate, taskId)
 
         completeTask(text === taskWord)
         endTask()
@@ -170,6 +149,18 @@ export default function KeyboardGrid({
             role="group"
             style={{ height, display: "flex", flexDirection: "column" }}
         >
+            {variant === "singleCell" ? (
+                <KeyboardCell
+                    letters={["J", "K", "L", "M"]}
+                    ariaLabel={"JKLM"}
+                    onLetterSelected={(letter) =>
+                        handleLetterSelected(letter, 3)
+                    } // Pass cellIndex
+                    onSwipe={() => handleSwipe()}
+                    content={content} // Pass the variant to the Cell component
+                    doesTap={false}
+                />
+            ) : (
             <div
                 style={{
                     flex: 1,
@@ -182,10 +173,10 @@ export default function KeyboardGrid({
                 tabIndex={0}
             >
                 {data.map((item, index) => (
-                    <MotionDetection
+                    <KeyboardCell
                         key={index}
                         letters={Array.isArray(item) ? item : [item]}
-                       aria-label={content === "single" ? item : ariaLabelData[index]}
+                        aria-label={content === "single" ? item : ariaLabelData[index]}
                         onLetterSelected={letter => handleLetterSelected(letter, index)}
                         onSwipe={() => {}}
                         content={content}
@@ -193,66 +184,22 @@ export default function KeyboardGrid({
                     />
                 ))}
             </div>
+        )}
 
+            {/* Live region for accessibility
             <div
-                role="group"
-                aria-labelledby="text-box-label"
-                tabIndex={0}
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    border: "1px solid #8c8c8c",
-                    backgroundColor: "#292929",
-                    height: "10vh",
-                    padding: "10px",
-                }}
+                id="live-region"
+                aria-live="polite"
+                style={{ position: "absolute", left: "-9999px" }}
             >
-                <div
-                    id="live-region"
-                    aria-live="polite"
-                    style={{ position: "absolute", left: "-9999px" }}
-                >
-                    {ariaMessage}
-                </div>
+                {ariaMessage}
+            </div> */}
 
-                <div
-                    aria-label={`Text box: ${text}`}
-                    id="text-box-label"
-                    tabIndex={0}
-                    style={{
-                        fontSize: "16pt",
-                        fontFamily: "Arial",
-                        color: "#fff",
-                        backgroundColor: "#292929",
-                        flex: 1,
-                        textAlign: "center",
-                    }}
-                >
-                    {text}
-                </div>
-
-                {showContinue && (
-                    <button
-                        style={{
-                            marginLeft: "12px",
-                            padding: "8px 16px",
-                            backgroundColor: "#4a934a",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "5px",
-                            fontSize: "12pt",
-                            cursor: "pointer",
-                        }}
-                        ref={continueButtonRef}
-                        onClick={onNextTask}
-                        tabIndex={0}
-                        aria-label="Double tap to continue to next screen"
-                    >
-                        Continue
-                    </button>
-                )}
-            </div>
+            <TextBox
+                value={text}
+                showContinueButton={showContinue}
+                nextPageLink={nextPageLink}
+            />
         </div>
     )
 }

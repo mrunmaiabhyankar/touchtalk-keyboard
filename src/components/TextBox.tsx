@@ -1,4 +1,6 @@
 import React from "react"
+import { useNavigate } from 'react-router-dom';
+
 
 interface TextBoxProps {
     value: string // The text to display
@@ -11,64 +13,50 @@ const TextBox: React.FC<TextBoxProps> = ({
     showContinueButton = true,
     nextPageLink = "/",
 }) => {
+    const navigate = useNavigate();
     return (
         <div
             id="parent-box"
-            style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                border: "1px solid #8c8c8c",
-                padding: "10px",
-                backgroundColor: "#292929",
-                height: "10vh",
-            }}
+            className="text-box"
         >
             <div
                 id="text"
                 aria-label="Text box"
                 tabIndex={0}
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "16pt",
-                    fontFamily: "Arial",
-                    backgroundColor: "#292929",
-                    color: "#ffffff",
-                }}
             >
                 {value}
             </div>
-
-            {showContinueButton && (
-                <a
-                    href={nextPageLink}
-                    style={{ textDecoration: "none" }}
-                    aria-label="Double tap to go to the next screen"
-                >
-                    <div
-                        style={{
-                            marginLeft: "12px",
-                            padding: "8px 16px",
-                            backgroundColor: "#4a934a",
-                            color: "white",
-                            borderRadius: "5px",
-                            height: "100%",
-                            cursor: "pointer",
-                            fontSize: "12pt",
-                            fontFamily: "Arial",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                        role="button"
-                        tabIndex={0}
-                    >
-                        Continue
-                    </div>
-                </a>
-            )}
+            <button
+    onClick={() => {
+        if (showContinueButton) {
+            navigate(nextPageLink); // assumes useNavigate from react-router-dom
+        }
+    }}
+    disabled={!showContinueButton}
+    aria-label={
+        showContinueButton
+            ? "Double tap to go to the next screen"
+            : "Complete all steps to continue"
+    }
+    style={{
+        // marginLeft: "12px",
+        // padding: "8px 16px",
+        backgroundColor: showContinueButton ? "#4a934a" : "#888",
+        color: "white",
+        // borderRadius: "5px",
+        // height: "100%",
+        cursor: showContinueButton ? "pointer" : "not-allowed",
+        // fontSize: "12pt",
+        // fontFamily: "Arial",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        
+        opacity: showContinueButton ? 1 : 0.6,
+    }}
+>
+    Continue
+</button>
         </div>
     )
 }
