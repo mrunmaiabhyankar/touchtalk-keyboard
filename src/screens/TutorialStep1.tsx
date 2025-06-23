@@ -19,7 +19,9 @@ const GridLayout: React.FC = () => {
         The 'Continue' button appears once all cells are pressed, with focus shifting to it automatically.
         </p>
       </div>
+      <div className="grid-section">
       <KeyboardGrid variant="default" content="single" doesTap={true} nextPageLink="/tutorial-2" taskWord="VIBE" />
+    </div>
     </div>
   )
 }

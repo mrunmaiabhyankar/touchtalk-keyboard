@@ -15,7 +15,9 @@ const Practice: React.FC = () => {
         Type the sentence 'Hi there' using the layout you've learned. Use the space key to separate words and the delete key to correct mistakes. The 'Continue' button will appear next to the text box once you're ready to proceed.
         </p>
       </div>
+      <div className="grid-section">
       <KeyboardGrid variant="default" content="multiple" doesTap={true} nextPageLink="/tutorial-done" taskWord="VIBE" />
+    </div>
     </div>
   );
 };

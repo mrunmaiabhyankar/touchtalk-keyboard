@@ -15,7 +15,9 @@ const Keyboard: React.FC = () => {
         Double tap each cell to explore the letter layout. The middle row has 4 letters, while the top and bottom rows have 3 each. The bottom-right cell contains backspace and space. The 'Continue' button will appear once all cells are pressed, with focus shifting to it automatically.
         </p>
       </div>
+      <div className="grid-section">
       <KeyboardGrid variant="default" content="multiple" doesTap={true} nextPageLink="/tutorial-3" taskWord="VIBE" />
+    </div>
     </div>
   );
 };

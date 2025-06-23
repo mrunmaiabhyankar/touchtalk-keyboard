@@ -10,14 +10,15 @@ const Task: React.FC = () => {
   return (
     <div className="page-container">
       <div className="top-section">
-        <PageHeading title="Day 1 Task 3" onExit={handleExit} />
+        <PageHeading title="Day 1 Task 1" onExit={handleExit} />
         <p className='phrase-text'>
         Be You
         </p>
       </div>
+      <div className="grid-section">
       <KeyboardGrid variant="default" content="multiple" doesTap={true} nextPageLink="/" taskWord="VIBE" />
     </div>
-  
+    </div>
   );
 };
 

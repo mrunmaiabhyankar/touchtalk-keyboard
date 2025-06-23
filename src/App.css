@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+/* ── at the very end of src/index.css ── */
+
+.page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}

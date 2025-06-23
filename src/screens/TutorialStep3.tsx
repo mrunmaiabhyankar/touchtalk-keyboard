@@ -19,7 +19,9 @@ const Gestures: React.FC = () => {
         The 'Continue' button appears once all cells are pressed, with focus shifting to it automatically.
         </p>
       </div>
+      <div className="grid-section">
       <KeyboardGrid variant="singleCell" content="multiple" doesTap={true} nextPageLink="/practice" taskWord="VIBE" />
+    </div>
     </div>
   );
 };
