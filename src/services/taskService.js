@@ -46,5 +46,5 @@ export const fetchTaskPhrasesByDay = async (dayNumber) => {
     phrases.push(doc.data().phrase);
   });
 
-  return phrases.sort(); // optional sorting
+  return phrases;
 };

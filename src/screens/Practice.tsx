@@ -1,11 +1,18 @@
 import React from 'react';
 import PageHeading from '../components/PageHeading';
 import KeyboardGrid from '../components/KeyboardGrid';
+import { useNavigate } from 'react-router-dom';
 
 const Practice: React.FC = () => {
+  const navigate = useNavigate();
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
     console.log("Tutorial exited");
+  };
+
+  const handleContinue = () => {
+    // Logic to handle the continue action
+    navigate("/tutorial-done"); // Navigate to the next tutorial step
   };
   return (
     <div className="page-container">
@@ -16,7 +23,7 @@ const Practice: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="default" content="multiple" doesTap={true} nextPageLink="/tutorial-done" taskWord="VIBE" />
+      <KeyboardGrid variant="default" content="multiple" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
     </div>
     </div>
   );

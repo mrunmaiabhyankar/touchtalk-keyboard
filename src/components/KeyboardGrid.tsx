@@ -19,7 +19,7 @@ interface KeyboardGridProps {
     onTextUpdate?: (text: string) => void
     variant?: "default" | "gridLayout" | "singleCell"
     content?: "single" | "multiple"
-    nextPageLink?: string
+    onClickContinue?: () => void;
     doesTap?: boolean
     taskWord?: string
 }
@@ -28,9 +28,9 @@ export default function KeyboardGrid({
     onTextUpdate,
     variant = "gridLayout",
     content = "single",
-    nextPageLink,
     doesTap = false,
     taskWord = "VIBE",
+    onClickContinue = () => {}
 }: KeyboardGridProps) {
     const [text, setText] = useState("")
     const [pressedCells, setPressedCells] = useState<number[]>([])
@@ -130,7 +130,7 @@ export default function KeyboardGrid({
 
         completeTask(text === taskWord)
         endTask()
-        window.location.href = nextPageLink || "/"
+        // window.location.href = nextPageLink || "/"
     }
 
     const gridLetters = [
@@ -198,7 +198,7 @@ export default function KeyboardGrid({
             <TextBox
                 value={text}
                 showContinueButton={showContinue}
-                nextPageLink={nextPageLink}
+                onClickContinue={onClickContinue}
             />
         </div>
     )

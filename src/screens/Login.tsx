@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { completeLogin, sendLoginLink } from '../services/authService';
+
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [name, setName] = useState('');
@@ -8,25 +11,39 @@ const Login: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you would send the magic link to the user's email
+    sendLoginLink(email);
     setSubmitted(true);
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  const finishLogin = async () => {
+    const user = await completeLogin();
+    if (user) {
+      navigate("/home"); // or wherever you want to go next
+    }
+  };
+
+  finishLogin();
+}, []);
+  
 
   return (
     <div className="page-container">
       <div className="top-section">
-        <h1>TouchTalk</h1>
+        <h1>Looks like you're logged out!</h1>
         <p className="description">
-          The 3×3 keyboard layout is arranged in a simple 3×3 grid, with each cell containing 3 or 4 letters.
-          You can access the letters through swiping gestures. Let's learn how to use the keyboard.
+          Enter your name and email to receive a magic link to log in!
         </p>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
           <input
             type="text"
             placeholder="Name"
             value={name}
             onChange={e => setName(e.target.value)}
             required
-            style={{ padding: 8, fontSize: 16 }}
+            style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
           />
           <input
             type="email"
@@ -34,7 +51,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
-            style={{ padding: 8, fontSize: 16 }}
+            style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
           />
           <button
             type="submit"
