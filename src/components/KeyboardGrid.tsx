@@ -106,8 +106,14 @@ export default function KeyboardGrid({
                 setAriaMessage("Space added")
                 break
             default:
-                newText += letter
-                break
+                if (content === "multiple") {
+        // Letter Placement step → append
+        newText += letter
+      } else {
+        // Grid Layout step → overwrite
+        newText = letter
+      }
+      break
         }
 
         if (variant === "singleCell") setSwipeCount(prev => prev + 1)

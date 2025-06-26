@@ -53,7 +53,9 @@ useEffect(() => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="default" content="multiple" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid 
+      key={tasks[currentIndex]}     
+      variant="default" content="multiple" doesTap={true} onClickContinue={handleContinue} taskWord={tasks[currentIndex] || ""} />
     </div>
     </div>
   );
