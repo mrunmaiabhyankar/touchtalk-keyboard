@@ -7,27 +7,35 @@ const Login: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would send the magic link to the user's email
-    sendLoginLink(email);
+    await sendLoginLink(email);
     setSubmitted(true);
   };
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-  const finishLogin = async () => {
-    const user = await completeLogin();
-    if (user) {
-      navigate("/home"); // or wherever you want to go next
-    }
-  };
+    const finishLogin = async () => {
+      try {
+        const user = await completeLogin();
+        console.log("User after login:", user);
+        // If user is null, it means login was not successful
+        if (!user) {
+          console.error("Login failed. User is null.");
+          return;
+        }
+        if (user) {
+          navigate("/home");
+        }
+      } catch (err) {
+        console.error("Login error:", err);
+      }
+    };
 
-  finishLogin();
-}, []);
-  
+    finishLogin();
+
+  }, [navigate]);
 
   return (
     <div className="page-container">

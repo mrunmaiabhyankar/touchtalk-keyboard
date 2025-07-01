@@ -1,37 +1,108 @@
-// Utility functions for Google Analytics event reporting
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../firebase/firebaseConfig";
 
-export function reportCharacterError(inputChar: string, taskId: number) {
-    window.gtag?.("event", "error_character", {
-        event_category: "Task Interaction",
-        event_label: inputChar,
-        value: 1,
-        task_id: taskId,
-    })
-}
+export const logAnalyticsEvent = (eventName: string, params: Record<string, any> = {}) => {
+  try {
+    logEvent(analytics, eventName, params);
+  } catch (error) {
+    console.error("GA logging error:", error);
+  }
+};
 
-export function reportTaskCompleted(success: boolean, taskId: number) {
-    window.gtag?.("event", "task_completed", {
-        event_category: "Task Performance",
-        event_label: `Task ${taskId} complete: ${success}`,
-        value: 1,
-        task_id: taskId,
-    })
-}
+// ──────── Interaction-Level ────────
+export const logSwipeDirection = (direction: string, cellIndex: number) => {
+  logAnalyticsEvent("swipe_direction", { direction, cellIndex });
+};
 
-export function reportTimeOnTask(duration: number, taskId: number) {
-    window.gtag?.("event", "time_on_task", {
-        event_category: "Task Interaction",
-        event_label: "Task duration",
-        value: duration,
-        task_id: taskId,
-    })
-}
+export const logExpectedVsActualSwipe = (expected: string, actual: string, index: number) => {
+  logAnalyticsEvent("expected_vs_actual_swipe", { expected, actual, index });
+};
 
-export function reportErrorRate(errors: number, taskId: number) {
-    window.gtag?.("event", "error_rate", {
-        event_category: "Task Performance",
-        event_label: `Task ${taskId}`,
-        value: errors,
-        task_id: taskId,
-    })
-}
+export const logSwipeDuration = (startTime: number, endTime: number) => {
+  logAnalyticsEvent("swipe_duration", { duration: endTime - startTime });
+};
+
+export const logSwipeAbandonment = (cellIndex: number) => {
+  logAnalyticsEvent("swipe_abandonment", { cellIndex });
+};
+
+// ──────── Phrase-Level ────────
+export const logPhraseTime = (taskId: number, duration: number) => {
+  logAnalyticsEvent("phrase_completion_time", { taskId, duration });
+};
+
+export const logSwipesPerCharacter = (taskId: number, totalSwipes: number, chars: number) => {
+  logAnalyticsEvent("swipes_per_character", { taskId, ratio: totalSwipes / chars });
+};
+
+export const logPhraseErrorRate = (taskId: number, wrong: number, total: number) => {
+  logAnalyticsEvent("error_rate", { taskId, rate: (wrong / total) * 100 });
+};
+
+// ──────── Correction-Level ────────
+export const logBackspaceTap = (taskId: number) => {
+  logAnalyticsEvent("backspace_used", { taskId });
+};
+
+export const logClearAll = (taskId: number, swipeCount: number) => {
+  logAnalyticsEvent("clear_all_triggered", { taskId, swipeCount });
+};
+
+export const logCorrectionDensity = (taskId: number, charsDeleted: number, charsTyped: number) => {
+  logAnalyticsEvent("correction_density", {
+    taskId,
+    density: (charsDeleted / charsTyped) * 100,
+  });
+};
+
+// ──────── Focus Behavior ────────
+export const logTextboxFocus = (taskId: number) => {
+  logAnalyticsEvent("textbox_focus", { taskId });
+};
+
+export const logFocusAfterTyping = (taskId: number) => {
+  logAnalyticsEvent("focus_after_typing", { taskId });
+};
+
+export const logSwipeToFocusRatio = (taskId: number, focusCount: number, totalSwipes: number) => {
+  logAnalyticsEvent("swipe_to_focus_ratio", {
+    taskId,
+    ratio: focusCount / totalSwipes,
+  });
+};
+
+// ──────── Longitudinal Metrics ────────
+export const logDailyPhraseStats = (
+  day: number,
+  avgTime: number,
+  errorRate: number,
+  swipesPerPhrase: number
+) => {
+  logAnalyticsEvent("daily_phrase_stats", {
+    day,
+    avgTime,
+    errorRate,
+    swipesPerPhrase,
+  });
+};
+
+export const logErrorResilience = (userId: string, taskId: number, recovered: boolean) => {
+  logAnalyticsEvent("error_resilience", { userId, taskId, recovered });
+};
+
+export const logTimeOfDayPerformance = (taskId: number, timeOfDay: string, performance: number) => {
+  logAnalyticsEvent("time_of_day_performance", { taskId, timeOfDay, performance });
+};
+
+export const logPhraseTypeDifficulty = (
+  phraseType: string,
+  avgTime: number,
+  errorRate: number
+) => {
+  logAnalyticsEvent("phrase_type_difficulty", {
+    phraseType,
+    avgTime,
+    errorRate,
+  });
+};
+

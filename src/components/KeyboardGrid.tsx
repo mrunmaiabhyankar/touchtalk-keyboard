@@ -1,244 +1,199 @@
-import React, { useState, useEffect, useRef } from "react"
-import KeyboardCell from "./Cell"
-import TextBox from "./TextBox"
-import {
-    reportCharacterError,
-    reportTaskCompleted,
-    reportTimeOnTask,
-    reportErrorRate,
-} from "../utils/analyticsFunctions"
-
-declare global {
-    interface Window {
-        gtag?: (...args: any[]) => void
-    }
-}
-export {}
+import React, { useState, useEffect, useRef } from "react";
+import KeyboardCell from "./Cell";
+import TextBox from "./TextBox";
+import { logAnalyticsEvent } from "../utils/analyticsFunctions";
 
 interface KeyboardGridProps {
-    onTextUpdate?: (text: string) => void
-    variant?: "default" | "gridLayout" | "singleCell"
-    content?: "single" | "multiple"
-    onClickContinue?: () => void;
-    doesTap?: boolean
-    taskWord?: string
+  onTextUpdate?: (text: string) => void;
+  variant?: "default" | "gridLayout" | "singleCell";
+  content?: "single" | "multiple";
+  onClickContinue?: () => void;
+  doesTap?: boolean;
+  taskWord?: string;
 }
 
-export default function KeyboardGrid({
-    onTextUpdate,
-    variant = "gridLayout",
-    content = "single",
-    doesTap = false,
-    taskWord = "VIBE",
-    onClickContinue = () => {}
-}: KeyboardGridProps) {
-    const [text, setText] = useState("")
-    const [pressedCells, setPressedCells] = useState<number[]>([])
-    const [swipeCount, setSwipeCount] = useState(0)
-    const continueButtonRef = useRef<HTMLButtonElement>(null)
-    const [ariaMessage, setAriaMessage] = useState("")
-    const [errors, setErrors] = useState(0)
-    const [backspaces, setBackspaces] = useState(0)
-    const [height, setHeight] = useState("50vh")
-    const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"]
-    const taskId = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0
+const KeyboardGrid: React.FC<KeyboardGridProps> = ({
+  onTextUpdate,
+  variant = "gridLayout",
+  content = "single",
+  doesTap = false,
+  taskWord = "VIBE",
+  onClickContinue = () => {}
+}) => {
+  const [text, setText] = useState("");
+  const [pressedCells, setPressedCells] = useState<number[]>([]);
+  const [swipeCount, setSwipeCount] = useState(0);
+  const [errors, setErrors] = useState(0);
+  const [backspaces, setBackspaces] = useState(0);
+  const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
 
-    const handleCharacterInput = (inputChar: string, expectedChar: string) => {
-        if (inputChar !== expectedChar && inputChar !== "⌫") {
-            setErrors(prev => prev + 1)
-            reportCharacterError(inputChar, taskId)
-        }
+  const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"];
+  const taskId = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0;
+
+  useEffect(() => {
+    setTaskStartTime(Date.now());
+    logAnalyticsEvent("text_box_focus", { taskId });
+  }, [taskWord]);
+
+  const handleCharacterInput = (inputChar: string, expectedChar: string) => {
+    if (inputChar !== expectedChar && inputChar !== "⌫") {
+      setErrors(prev => prev + 1);
+      logAnalyticsEvent("error_character", { inputChar, expectedChar, taskId });
+    }
+  };
+
+  const handleSwipe = () => {
+    if (variant === "singleCell") {
+      setSwipeCount(prev => prev + 1);
+      logAnalyticsEvent("swipe_count_incremented", { taskId });
+    }
+  };
+
+  const handleLetterSelected = (letter: string, index: number) => {
+    const expectedChar = taskWord[text.length];
+    handleCharacterInput(letter, expectedChar);
+
+    let newText = text;
+
+    if (variant === "gridLayout") {
+      setPressedCells(prev => (prev.includes(index) ? prev : [...prev, index]));
     }
 
-    const [taskStartTime, setTaskStartTime] = useState<number | null>(null)
-
-    useEffect(() => {
-        setTaskStartTime(Date.now())
-    }, [])
-
-    // Callback function for swipe gestures
-    const handleSwipe = () => {
-        if (variant === "singleCell") {
-            setSwipeCount((prev) => prev + 1) // Increment swipe count
-            console.log(swipeCount)
-        }
+    switch (letter) {
+      case "⌫":
+        setBackspaces(prev => prev + 1);
+        newText = newText.slice(0, -1);
+        logAnalyticsEvent("backspace_pressed", { taskId });
+        break;
+      case "⇤":
+        newText = "";
+        logAnalyticsEvent("clear_all", { taskId });
+        break;
+      case "␣":
+        newText += " ";
+        break;
+      default:
+        newText = content === "multiple" ? newText + letter : letter;
+        break;
     }
 
-    const completeTask = (success: boolean) => {
-        reportTaskCompleted(success, taskId)
+    if (variant === "singleCell") {
+      setSwipeCount(prev => prev + 1);
     }
 
-    const endTask = () => {
-        if (taskStartTime) {
-            const duration = (Date.now() - taskStartTime) / 1000
-            reportTimeOnTask(duration, taskId)
-        }
+    setText(newText);
+    onTextUpdate?.(newText);
+  };
+
+  const shouldShowContinueButton = () => {
+    switch (variant) {
+      case "gridLayout":
+        return pressedCells.length === 9;
+      case "singleCell":
+        return swipeCount >= 4;
+      default:
+        return text.trim().length > 0;
+    }
+  };
+
+  const completeTask = (success: boolean) => {
+    logAnalyticsEvent("task_completed", { taskId, success });
+  };
+
+  const endTask = () => {
+    if (taskStartTime) {
+      const duration = (Date.now() - taskStartTime) / 1000;
+      logAnalyticsEvent("phrase_duration", { duration, taskId });
     }
 
-    const handleLetterSelected = (letter: string, index: number) => {
-        const expectedChar = taskWord[text.length]
-        handleCharacterInput(letter, expectedChar)
+    logAnalyticsEvent("swipes_per_character", {
+      swipes: swipeCount,
+      characters: text.length,
+      taskId
+    });
 
-        let newText = text
+    logAnalyticsEvent("backspace_per_phrase", {
+      count: backspaces,
+      taskId
+    });
 
-        if (variant === "gridLayout") {
-            setPressedCells(prev => (prev.includes(index) ? prev : [...prev, index]))
-        }
+    const errorRate = (errors / (taskWord.length || 1)) * 100;
+    logAnalyticsEvent("error_rate", {
+      errorRate,
+      errors,
+      length: taskWord.length,
+      taskId
+    });
+  };
 
-        switch (letter) {
-            case "⌫":
-                setBackspaces(prev => prev + 1)
-                if (newText.length > 0) {
-                    const deletedChar = newText.slice(-1)
-                    newText = newText.slice(0, -1)
-                    setAriaMessage("")
-                    setTimeout(() => setAriaMessage(`Deleted ${deletedChar}`), 10)
-                } else {
-                    setAriaMessage("No character to delete")
-                }
-                break
-            case "⇤":
-                newText = ""
-                setAriaMessage("Cleared all")
-                break
-            case "␣":
-                newText += " "
-                setAriaMessage("Space added")
-                break
-            default:
-                if (content === "multiple") {
-        // Letter Placement step → append
-        newText += letter
-      } else {
-        // Grid Layout step → overwrite
-        newText = letter
-      }
-      break
-        }
+  const handleContinue = () => {
+    completeTask(text === taskWord);
+    endTask();
+    onClickContinue?.();
+  };
 
-        if (variant === "singleCell") setSwipeCount(prev => prev + 1)
-        setText(newText)
-        onTextUpdate?.(newText)
-    }
+  const gridLetters = [
+    ["A", "B", "C"], ["D", "E", "F"], ["G", "H", "I"],
+    ["J", "K", "L", "M"], ["N", "O", "P", "Q"], ["R", "S", "T", "U"],
+    ["V", "W", "X"], ["Y", "Z", "⇤"], ["␣", "", "⌫"]
+  ];
 
-    const shouldShowContinueButton = () => {
-        switch (variant) {
-            case "gridLayout": return pressedCells.length === 9
-            case "singleCell": return swipeCount >= 4
-            default: return text.trim().length > 0
-        }
-    }
+  const gridCells = ["Cell 1", "Cell 2", "Cell 3", "Cell 4", "Cell 5", "Cell 6", "Cell 7", "Cell 8", "Cell 9"];
+  const ariaLabelData = ["A,B,C", "D,E,F", "G,H,I", "J,K,L,M", "N,O,P,Q", "R,S,T,U", "V,W,X", "Y,Z,Clear all", "Space,Delete"];
 
-    const onNextTask = () => {
-        const expectedLength = taskWord.length
-        const errorRate = (errors / expectedLength) * 100
-        reportErrorRate(errorRate, taskId)
+  const showContinue = shouldShowContinueButton();
 
-        completeTask(text === taskWord)
-        endTask()
-        // window.location.href = nextPageLink || "/"
-    }
-
-    const gridLetters = [
-        ["A", "B", "C"], ["D", "E", "F"], ["G", "H", "I"],
-        ["J", "K", "L", "M"], ["N", "O", "P", "Q"], ["R", "S", "T", "U"],
-        ["V", "W", "X"], ["Y", "Z", "⇤"], ["␣", "", "⌫"],
-    ]
-    const gridCells = ["Cell 1", "Cell 2", "Cell 3", "Cell 4", "Cell 5", "Cell 6", "Cell 7", "Cell 8", "Cell 9"]
-    const ariaLabelData = ["A,B,C", "D,E,F", "G,H,I", "J,K,L,M", "N,O,P,Q", "R,S,T,U", "V,W,X", "Y,Z,Clear all", "Space,Delete"]
-    const data = content === "single" ? gridCells : gridLetters
-    const showContinue = shouldShowContinueButton()
-
-    return (
+  return (
+    <div
+      tabIndex={0}
+      role="group"
+      className="keyboard-grid"
+      style={{ height: "50vh", display: "flex", flexDirection: "column" }}
+    >
+      {variant === "singleCell" ? (
+        <KeyboardCell
+          letters={["J", "K", "L", "M"]}
+          ariaLabel={"JKLM"}
+          onLetterSelected={(letter) => handleLetterSelected(letter, 3)}
+          onSwipe={({ direction, targetKey }) =>
+            logAnalyticsEvent("swipe_direction", { direction, targetKey })
+          }
+          content={content}
+          doesTap={false}
+        />
+      ) : (
         <div
-            tabIndex={0}
-            role="group"
-            style={{ height, display: "flex", flexDirection: "column" }}
+          style={{
+            flex: 1,
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateRows: "repeat(3, 1fr)"
+          }}
+          role="region"
+          aria-label="Keyboard region"
+          tabIndex={0}
         >
-            {variant === "singleCell" ? (
-                <KeyboardCell
-                    letters={["J", "K", "L", "M"]}
-                    ariaLabel={"JKLM"}
-                    onLetterSelected={(letter) =>
-                        handleLetterSelected(letter, 3)
-                    } // Pass cellIndex
-                    onSwipe={() => handleSwipe()}
-                    content={content} // Pass the variant to the Cell component
-                    doesTap={false}
-                />
-            ) : (
-            <div
-                style={{
-                    flex: 1,
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gridTemplateRows: "repeat(3, 1fr)",
-                }}
-                role="region"
-                aria-label="Keyboard region"
-                tabIndex={0}
-            >
-                {data.map((item, index) => (
-                    <KeyboardCell
-                        key={index}
-                        letters={Array.isArray(item) ? item : [item]}
-                        aria-label={content === "single" ? item : ariaLabelData[index]}
-                        onLetterSelected={letter => handleLetterSelected(letter, index)}
-                        onSwipe={() => {}}
-                        content={content}
-                        doesTap={doesTap}
-                    />
-                ))}
-            </div>
-        )}
-
-            {/* Live region for accessibility
-            <div
-                id="live-region"
-                aria-live="polite"
-                style={{ position: "absolute", left: "-9999px" }}
-            >
-                {ariaMessage}
-            </div> */}
-
-            <TextBox
-                value={text}
-                showContinueButton={showContinue}
-                onClickContinue={onClickContinue}
+          {(content === "single" ? gridCells : gridLetters).map((item, index) => (
+            <KeyboardCell
+              key={index}
+              letters={Array.isArray(item) ? item : [item]}
+              ariaLabel={content === "single" ? String(item) : ariaLabelData[index]}
+              onLetterSelected={(letter) => handleLetterSelected(letter, index)}
+              onSwipe={() => {}}
+              content={content}
+              doesTap={doesTap}
             />
+          ))}
         </div>
-    )
-}
+      )}
 
-// addPropertyControls(KeyboardGrid, {
-//     variant: {
-//         type: ControlType.Enum,
-//         options: ["default", "gridLayout", "gestures"],
-//         defaultValue: "default",
-//         title: "Style",
-//     },
-//     content: {
-//         type: ControlType.Enum,
-//         options: ["single", "multiple"],
-//         defaultValue: "multiple",
-//         title: "Content Type",
-//     },
-//     onTextUpdate: {
-//         type: ControlType.Function,
-//         title: "On Text Update",
-//     },
-//     nextPageLink: {
-//         type: ControlType.String,
-//         title: "Next Page Link",
-//     },
-//     doesTap: {
-//         type: ControlType.Boolean,
-//         defaultValue: false,
-//         title: "Enable Tap",
-//     },
-//     taskWord: {
-//         type: ControlType.String,
-//         defaultValue: "BASE",
-//         title: "Task Word",
-//     },
-// })
+      <TextBox
+        value={text}
+        showContinueButton={showContinue}
+        onClickContinue={handleContinue}
+      />
+    </div>
+  );
+};
+
+export default KeyboardGrid;

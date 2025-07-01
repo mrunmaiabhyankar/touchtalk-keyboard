@@ -17,14 +17,15 @@ export const createOrUpdateUser = async (uid, email) => {
       email,
       createdAt: serverTimestamp(),
       studyStartDate: serverTimestamp(),
-      taskFrequency: "daily", // or "every3days"
+      // taskFrequency: "daily", // or "every3days"
       sessionCount: 1,
       lastSeen: serverTimestamp(),
     });
-  } else {
-    await updateDoc(userRef, {
-      lastSeen: serverTimestamp(),
-      sessionCount: increment(1),
-    });
   }
+  // } else {
+  //   // await updateDoc(userRef, {
+  //   //   lastSeen: serverTimestamp(),
+  //   //   sessionCount: increment(1),
+  //   // });
+  // }
 };

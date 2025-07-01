@@ -1,203 +1,161 @@
-import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { logAnalyticsEvent } from "../utils/analyticsFunctions";
 
 interface KeyboardCellProps {
-    letters?: string[]
-    ariaLabel?: string
-    onLetterSelected?: (letter: string, cellIndex: number) => void
-    onSwipe?: () => void
-    content?: "single" | "multiple"
-    doesTap?: boolean
+  letters?: string[];
+  ariaLabel?: string;
+  onLetterSelected?: (letter: string, cellIndex: number) => void;
+  onSwipe?: (info: { direction: string; targetKey: string }) => void;
+  content?: "single" | "multiple";
+  doesTap?: boolean;
 }
 
 const KeyboardCell: React.FC<KeyboardCellProps> = ({
-    letters = ["A", "B", "C", "D"],
-    ariaLabel = "ABCD",
-    onLetterSelected,
-    onSwipe,
-    content = "single",
-    doesTap = false,
+  letters = ["A", "B", "C", "D"],
+  ariaLabel = "ABCD",
+  onLetterSelected,
+  onSwipe,
+  content = "single",
+  doesTap = false,
 }) => {
-    const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
-    const [currentAriaLabel, setCurrentAriaLabel] = useState(ariaLabel)
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
+  const [currentAriaLabel, setCurrentAriaLabel] = useState(ariaLabel);
 
-    const handleDrag = (_event: any, info: any) => {
-        const { offset } = info
-        const threshold = 10
+  const handleDrag = (_event: any, info: any) => {
+    const { offset } = info;
+    const threshold = 10;
+    let direction = "";
+    let letter = "";
 
-        if (Math.abs(offset.x) > Math.abs(offset.y)) {
-            if (offset.x > threshold) {
-                setSelectedLetter(letters[2])
-            } else if (offset.x < -threshold) {
-                setSelectedLetter(letters[0])
-            }
-        } else {
-            if (offset.y > threshold) {
-                setSelectedLetter(letters[3])
-            } else if (offset.y < -threshold) {
-                setSelectedLetter(letters[1])
-            }
-        }
+    if (Math.abs(offset.x) > Math.abs(offset.y)) {
+      if (offset.x > threshold) {
+        letter = letters[2];
+        direction = "right";
+      } else if (offset.x < -threshold) {
+        letter = letters[0];
+        direction = "left";
+      }
+    } else {
+      if (offset.y > threshold) {
+        letter = letters[3];
+        direction = "down";
+      } else if (offset.y < -threshold) {
+        letter = letters[1];
+        direction = "up";
+      }
     }
 
-    const handleDragEnd = () => {
-        if (selectedLetter && onLetterSelected) {
-            onLetterSelected(selectedLetter, 0)
-            if (onSwipe) onSwipe()
+    if (letter) {
+      setSelectedLetter(letter);
+      if (onSwipe) {
+        onSwipe({ direction, targetKey: ariaLabel || "unknown" });
+      }
 
-            let ariaMessage = `Selected ${selectedLetter}`
-            const specialChars = ["␣", "⇤", "⌫"]
-            if (specialChars.includes(selectedLetter)) {
-                ariaMessage = ""
-            }
-
-            const liveRegion = document.getElementById("live-region")
-            if (liveRegion) {
-                liveRegion.textContent = ""
-                setTimeout(() => {
-                    liveRegion.textContent = ariaMessage
-                }, 10)
-
-                setTimeout(() => {
-                    liveRegion.textContent = ""
-                }, 2000)
-            }
-        }
+      logAnalyticsEvent("swipe_direction", {
+        direction,
+        targetKey: ariaLabel,
+      });
     }
+  };
 
-    const handleClick = () => {
-        if (doesTap && onLetterSelected) {
-            
-            onLetterSelected(letters[0], 0)
-            const liveRegion = document.getElementById("live-region")
-            if (liveRegion) {
-                liveRegion.textContent = `Pressed`
-            }
-        } else if (onLetterSelected) {
-            onLetterSelected(ariaLabel, 0)
-        }
+  const handleDragEnd = () => {
+    if (selectedLetter && onLetterSelected) {
+      onLetterSelected(selectedLetter, 0);
+
+      const liveRegion = document.getElementById("live-region");
+      if (liveRegion) {
+        liveRegion.textContent = "";
+        setTimeout(() => {
+          liveRegion.textContent = `Selected ${selectedLetter}`;
+        }, 10);
+
+        setTimeout(() => {
+          liveRegion.textContent = "";
+        }, 2000);
+      }
     }
+  };
 
-    useEffect(() => {
-        if (selectedLetter && !doesTap) {
-            let currentLetter = ""
-            switch (selectedLetter) {
-                case "␣":
-                    currentLetter = "Space"
-                    break
-                case "⇤":
-                    currentLetter = "Clear All"
-                    break
-                case "⌫":
-                    currentLetter = "Delete"
-                    break
-                default:
-                    currentLetter = selectedLetter.toLowerCase()
-            }
+  const handleClick = () => {
+    if (doesTap && onLetterSelected) {
+      onLetterSelected(letters[0], 0);
+      const liveRegion = document.getElementById("live-region");
+      if (liveRegion) {
+        liveRegion.textContent = `Pressed`;
+      }
+    } else if (onLetterSelected) {
+      onLetterSelected(ariaLabel, 0);
+    }
+  };
 
-            const liveRegion = document.getElementById("live-region")
-            if (liveRegion) {
-                liveRegion.textContent = currentLetter
-            }
+  useEffect(() => {
+    if (selectedLetter && !doesTap) {
+      let currentLetter = "";
+      switch (selectedLetter) {
+        case "␣":
+          currentLetter = "Space";
+          break;
+        case "⇤":
+          currentLetter = "Clear All";
+          break;
+        case "⌫":
+          currentLetter = "Delete";
+          break;
+        default:
+          currentLetter = selectedLetter.toLowerCase();
+      }
 
-            setTimeout(() => {
-                setCurrentAriaLabel(ariaLabel)
-            }, 2000)
-        }
-    }, [selectedLetter, ariaLabel, doesTap])
+      const liveRegion = document.getElementById("live-region");
+      if (liveRegion) {
+        liveRegion.textContent = currentLetter;
+      }
 
-    return (
+      setTimeout(() => {
+        setCurrentAriaLabel(ariaLabel);
+      }, 2000);
+    }
+  }, [selectedLetter, ariaLabel, doesTap]);
+
+  return (
+    <div tabIndex={0} className="cell">
+      {content === "single" ? (
         <div
-            tabIndex={0}
-            // style={{
-            //     display: "flex",
-            //     flexDirection: "column",
-            //     justifyContent: "space-between",
-            //     height: "100%",
-            //     border: "1px solid #8C8C8C",
-            // }}
-            className="cell"
+          aria-label={ariaLabel}
+          tabIndex={0}
+          onClick={handleClick}
+          className="cell-single"
         >
-            {content === "single" ? (
-                <div
-                    aria-label={ariaLabel}
-                    tabIndex={0}
-                    onClick={handleClick}
-                    className="cell-single"
-                    // style={{
-                    //     display: "flex",
-                    //     justifyContent: "center",
-                    //     alignItems: "center",
-                    //     width: "100%",
-                    //     height: "100%",
-                    //     fontSize: "16pt",
-                    //     fontWeight: "bold",
-                    //     color: "#ffffff",
-                    //     // background: bgcolor,
-                    // }}
-                >
-                    {letters[0]}
-                </div>
-            ) : (
-                <motion.div
-                    drag
-                    dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                    dragElastic={0}
-                    dragTransition={{ bounceStiffness: 300, bounceDamping: 10 }}
-                    dragMomentum={false}
-                    onDrag={handleDrag}
-                    onDragEnd={handleDragEnd}
-                    onClick={doesTap ? handleClick : () => {}}
-                    tabIndex={0}
-                    aria-label={currentAriaLabel}
-                    className="cell-multiple"
-                    // style={{
-                    //     flex: 1,
-                    //     display: "flex",
-                    //     flexDirection: "column",
-                    //     justifyContent: "space-between",
-                    //     alignItems: "stretch",
-                    //     width: "100%",
-                    //     height: "100%",
-                    //     border: "1px solid #8C8C8C",
-                    //     fontFamily: "Arial",
-                    //     fontWeight: "bold",
-                    //     color: "#ffffff",
-                    //     textTransform: "uppercase",
-                    //     background: "#292929",
-                    //     fontSize: "16pt",
-                    //     padding: "5vw",
-                    // }}
-                >
-                    <div
-                        aria-hidden="true"
-                        tabIndex={-1}
-                        className="cell-row"
-                        // style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}
-                    >
-                        <div>{letters[1]}</div>
-                    </div>
-                    <div
-                        aria-hidden="true"
-                        tabIndex={-1}
-                        className="cell-row-middle"
-                        // style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1 }}
-                    >
-                        <div>{letters[0]}</div>
-                        <div>{letters[2]}</div>
-                    </div>
-                    <div
-                        aria-hidden="true"
-                        tabIndex={-1}
-                        className="cell-row"
-                        // style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}
-                    >
-                        <div>{letters[3]}</div>
-                    </div>
-                </motion.div>
-            )}
+          {letters[0]}
         </div>
-    )
-}
+      ) : (
+        <motion.div
+          drag
+          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          dragElastic={0}
+          dragTransition={{ bounceStiffness: 300, bounceDamping: 10 }}
+          dragMomentum={false}
+          onDrag={handleDrag}
+          onDragEnd={handleDragEnd}
+          onClick={doesTap ? handleClick : () => {}}
+          tabIndex={0}
+          aria-label={currentAriaLabel}
+          className="cell-multiple"
+        >
+          <div aria-hidden="true" tabIndex={-1} className="cell-row">
+            <div>{letters[1]}</div>
+          </div>
+          <div aria-hidden="true" tabIndex={-1} className="cell-row-middle">
+            <div>{letters[0]}</div>
+            <div>{letters[2]}</div>
+          </div>
+          <div aria-hidden="true" tabIndex={-1} className="cell-row">
+            <div>{letters[3]}</div>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+};
 
-export default KeyboardCell
+export default KeyboardCell;
