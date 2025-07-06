@@ -10,7 +10,7 @@ const TutorialDone: React.FC = () => {
     const checkIfTasksNeeded = async () => {
       const uid = localStorage.getItem("userUid");
       const alreadyCompleted = await isSessionAlreadyComplete(uid || '');
-      console.log("Already completed today's tasks:", alreadyCompleted);
+      // console.log("Already completed today's tasks:", alreadyCompleted);
       if (alreadyCompleted) {
         // They've already done today's task → maybe redirect or show a message
         // navigate("/tasks-done");

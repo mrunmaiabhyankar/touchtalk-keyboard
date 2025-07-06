@@ -8,7 +8,7 @@ const Practice: React.FC = () => {
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
     navigate("/tutorial-done"); // Navigate to the next tutorial step
-    console.log("Tutorial exited");
+    // console.log("Tutorial exited");
   };
 
   const handleContinue = () => {

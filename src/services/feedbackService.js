@@ -22,7 +22,7 @@ export const uploadVoiceFeedback = async ({ audioBlob, uid, day }) => {
 
     return { success: true };
   } catch (error) {
-    console.error("Error uploading voice feedback:", error);
+    // console.error("Error uploading voice feedback:", error);
     return { success: false, error };
   }
 };

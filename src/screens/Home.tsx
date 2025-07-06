@@ -15,7 +15,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user) {
-        console.log("User still signed in:", user.email);
+        // console.log("User still signed in:", user.email);
         const uid = user.uid;
         const email = user.email || "";
         initializeUserAnalytics(uid, email);
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
         localStorage.setItem("userEmail", user.email || "");
         localStorage.setItem("userUid", user.uid || "");
       } else {
-        console.log("User is not signed in");
+        // console.log("User is not signed in");
         navigate("/login");
       }
     });
@@ -36,7 +36,7 @@ const Home: React.FC = () => {
     const uid = localStorage.getItem("userUid") || '';
     const alreadyCompleted = await isSessionAlreadyComplete(uid);
     // console.log("User ID:", uid);
-    console.log("Already completed today's tasks:", alreadyCompleted);
+    // console.log("Already completed today's tasks:", alreadyCompleted);
     if (alreadyCompleted === "true") {
       // They've already done today's task → maybe redirect or show a message
       // navigate("/tasks-done");
@@ -57,6 +57,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     document.title = "Home | TouchTalk";
   }, []);
+
+  // throw new Error("Test error for boundary");
 
   return (
     <div className="page-container">

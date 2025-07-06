@@ -16,7 +16,7 @@ export const getUserCurrentDay = async (uid: string): Promise<number | null> => 
 export const fetchTaskPhrasesByDay = async (dayNumber: number): Promise<{ phraseId: number; phrase: string }[]> => {
   const q = query(collection(db, "tasks"), where("day", "==", dayNumber));
   const snapshot = await getDocs(q);
-  console.log("Fetched", snapshot.size, "tasks for day", dayNumber);
+  // console.log("Fetched", snapshot.size, "tasks for day", dayNumber);
 
   const phrases: { phraseId: number, phrase: string }[] = [];
 
@@ -30,7 +30,7 @@ export const fetchTaskPhrasesByDay = async (dayNumber: number): Promise<{ phrase
     }
   });
 
-  console.log("Fetched phrases for day", dayNumber, ":", phrases);
+  // console.log("Fetched phrases for day", dayNumber, ":", phrases);
   return phrases;
 };
 
@@ -47,7 +47,7 @@ export const markSessionComplete = async (uid: string): Promise<void> => {
   const nowLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   const isNewDay = nowLocal.getTime() !== lastSeenLocal.getTime();
-  console.log("Last seen:", lastSeen.toLocaleDateString(), "Now:", now.toLocaleDateString(), "Is new day:", isNewDay);
+  // console.log("Last seen:", lastSeen.toLocaleDateString(), "Now:", now.toLocaleDateString(), "Is new day:", isNewDay);
   if (isNewDay) {
     await updateDoc(userRef, {
       sessionCount: (userData.sessionCount || 1) + 1,
@@ -83,8 +83,8 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<string> => 
     (lastSeenLocal.getTime() - seenLocal.getTime()) / (1000 * 60 * 60 * 24);
 
   const isSameLocalDay = dayDifference === 0;
-  console.log("Last session was on:", lastSeen.toLocaleDateString());
-  console.log(userData.sessionCount, " sessions completed");
+  // console.log("Last session was on:", lastSeen.toLocaleDateString());
+  // console.log(userData.sessionCount, " sessions completed");
   return isSameLocalDay.toString(); // Return true or false as a string
 
   // return isSameDay;

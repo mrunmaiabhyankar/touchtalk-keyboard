@@ -8,7 +8,7 @@ const Gestures: React.FC = () => {
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
     navigate("/home"); // Adjust the path as needed
-    console.log("Tutorial exited");
+    // console.log("Tutorial exited");
   };
   const handleContinue = () => {
     navigate("/practice"); // Navigate to the next tutorial step

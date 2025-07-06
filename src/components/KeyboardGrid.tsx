@@ -62,10 +62,10 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       setPressedCells(prev => (prev.includes(index) ? prev : [...prev, index]));
     }
 
-    console.log(swipeCount, " swipeCount before increment");
+    // console.log(swipeCount, " swipeCount before increment");
     if (variant === "singleCell") {
       setSwipeCount(prev => prev + 1);
-      console.log("Swipe count incremented:", swipeCount);
+      // console.log("Swipe count incremented:", swipeCount);
     }
 
     switch (letter) {

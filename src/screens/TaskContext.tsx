@@ -22,7 +22,7 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
 
   const loadTasks = async (day: number) => {
     const fetched = await fetchTaskPhrasesByDay(day); 
-    console.log("Fetched tasks for day", day, ":", fetched);
+    // console.log("Fetched tasks for day", day, ":", fetched);
     setTasks(fetched);
   };
 

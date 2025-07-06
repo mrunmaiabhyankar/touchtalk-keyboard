@@ -9,11 +9,11 @@ const GridLayout: React.FC = () => {
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
     navigate("/home"); // Adjust the path as needed
-    console.log("Tutorial exited");
+    // console.log("Tutorial exited");
   };
 
   const handleContinue = () => {
-    console.log("Continue clicked");
+    // console.log("Continue clicked");
     navigate("/tutorial-2"); // Navigate to the next tutorial step
   };
   return (

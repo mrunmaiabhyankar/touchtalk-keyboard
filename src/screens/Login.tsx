@@ -23,17 +23,17 @@ const Login: React.FC = () => {
     const finishLogin = async () => {
       try {
         const user = await completeLogin();
-        console.log("User after login:", user);
+        // console.log("User after login:", user);
         // If user is null, it means login was not successful
         if (!user) {
-          console.error("Login failed. User is null.");
+          // console.error("Login failed. User is null.");
           return;
         }
         if (user) {
           navigate("/home");
         }
       } catch (err) {
-        console.error("Login error:", err);
+        // console.error("Login error:", err);
       }
     };
 

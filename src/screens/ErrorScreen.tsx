@@ -1,40 +1,37 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const ErrorScreen: React.FC = () => {
-    const navigate = useNavigate();
+const ErrorFallback: React.FC<{ error: Error }> = ({ error }) => {
+  const navigate = useNavigate();
 
-    const handleGoHome = () => {
-        navigate('/');
-    };
+  const handleReload = () => {
+    window.location.reload();
+  };
 
-    return (
-        <div style={{
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: '#f8f8f8'
-        }}>
-            <h1 style={{ fontSize: '4rem', margin: 0 }}>404</h1>
-            <p style={{ fontSize: '1.5rem', margin: '1rem 0' }}>Page Not Found</p>
-            <button
-                onClick={handleGoHome}
-                style={{
-                    padding: '0.75rem 2rem',
-                    fontSize: '1rem',
-                    borderRadius: '4px',
-                    border: 'none',
-                    background: '#007bff',
-                    color: '#fff',
-                    cursor: 'pointer'
-                }}
-            >
-                Go to Home
-            </button>
+  const goHome = () => {
+    navigate("/");
+  };
+
+  return (
+    <div
+      style={{
+        padding: "5rem",
+        textAlign: "center",
+        // color: "#333",
+        maxWidth: "600px",
+        margin: "0 auto",
+      }}
+    >
+      <h1>Something went wrong 😞</h1>
+      <p>{error.message}</p>
+
+      <div className='btn-grp'>
+          <button className='primary-btn' onClick={goHome}>Go back to homepage</button>
+          <button className='secondary-btn' onClick={handleReload}>Reload page</button>
         </div>
-    );
+      
+    </div>
+  );
 };
 
-export default ErrorScreen;
+export default ErrorFallback;

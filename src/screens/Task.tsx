@@ -13,7 +13,7 @@ const Task: React.FC = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
     navigate("/home"); // Adjust the path as needed
     
-    console.log("Task exited");
+    // console.log("Task exited");
   };
 
   const { tasks, loadTasks, popTask } = useTask();
@@ -30,7 +30,7 @@ const Task: React.FC = () => {
   const fetchTasks = async () => {
     setLoading(true);
     const day = await getUserCurrentDay(user?.uid || ''); // fetch the user's current day
-    console.log("User's current day:", day);
+    // console.log("User's current day:", day);
     if (day !== null) {
       setUserDay(day); 
       await loadTasks(day); // fetch tasks using the day
@@ -47,10 +47,10 @@ const Task: React.FC = () => {
 
 useEffect(() => {
   if (tasks.length > 0) {
-    console.log("Tasks updated:", tasks);
+    // console.log("Tasks updated:", tasks);
     // setCompletedTasks(0);
-    console.log("Tasks loaded for day - this is the latesttttttttttt:", tasks.length);
-    console.log("Phrase ID for current task:", tasks[currentIndex].phraseId);
+    // console.log("Tasks loaded for day - this is the latesttttttttttt:", tasks.length);
+    // console.log("Phrase ID for current task:", tasks[currentIndex].phraseId);
     setPageTitle(`Day ${userDay} Task ${completedTasks+1}`);
   }
 }, [tasks]);

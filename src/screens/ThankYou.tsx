@@ -4,7 +4,7 @@ const ThankYou: React.FC = () => {
   return (
     <div>
       <h2>Thank you!</h2>
-      <p>This is a placeholder.</p>
+      <p>You've completed all your tasks for the study. Well done! Please wait for the email from us for scheduling the final session about your experience!</p>
     </div>
   );
 };
