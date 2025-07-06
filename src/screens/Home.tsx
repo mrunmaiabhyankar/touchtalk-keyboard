@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { isSessionAlreadyComplete } from '../services/taskService';
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
+import { initializeUserAnalytics } from '../utils/analyticsFunctions';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ const Home: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user) {
         console.log("User still signed in:", user.email);
+        const uid = user.uid;
+        const email = user.email || "";
+        initializeUserAnalytics(uid, email);
         // Store email if needed for GA or elsewhere
         localStorage.setItem("userEmail", user.email || "");
         localStorage.setItem("userUid", user.uid || "");
@@ -29,22 +33,30 @@ const Home: React.FC = () => {
 
   useEffect(() => {
   const checkIfTasksNeeded = async () => {
-    const uid = localStorage.getItem("userUid");
-    const alreadyCompleted = await isSessionAlreadyComplete(uid || '');
+    const uid = localStorage.getItem("userUid") || '';
+    const alreadyCompleted = await isSessionAlreadyComplete(uid);
+    // console.log("User ID:", uid);
     console.log("Already completed today's tasks:", alreadyCompleted);
-    if (alreadyCompleted) {
+    if (alreadyCompleted === "true") {
       // They've already done today's task → maybe redirect or show a message
       // navigate("/tasks-done");
       setNextPageLink("/tasks-done");
 
-    } else {
+    } else if (alreadyCompleted === "false")   {
       // navigate("/task");
       setNextPageLink("/task");
+    } else if (alreadyCompleted === "login") {
+      // User is not logged in or session is not complete
+      navigate("/login");
     }
   };
 
   checkIfTasksNeeded();
 }, []);
+
+  useEffect(() => {
+    document.title = "Home | TouchTalk";
+  }, []);
 
   return (
     <div className="page-container">

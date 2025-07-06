@@ -4,7 +4,7 @@ import { fetchTaskPhrasesByDay } from '../services/taskService';
 
 // Define the shape of the context
 interface TaskContextType {
-  tasks: string[];
+  tasks: { phraseId: number; phrase: string }[];
   loadTasks: (day: number) => Promise<void>;
   popTask: () => void;
 }
@@ -18,10 +18,10 @@ interface TaskProviderProps {
 }
 
 export const TaskProvider = ({ children }: TaskProviderProps) => {
-  const [tasks, setTasks] = useState<string[]>([]);
+  const [tasks, setTasks] = useState<{ phraseId: number; phrase: string }[]>([]);
 
   const loadTasks = async (day: number) => {
-    const fetched = await fetchTaskPhrasesByDay(day); // <-- your real function
+    const fetched = await fetchTaskPhrasesByDay(day); 
     console.log("Fetched tasks for day", day, ":", fetched);
     setTasks(fetched);
   };

@@ -18,7 +18,7 @@ export const createOrUpdateUser = async (uid, email) => {
       createdAt: serverTimestamp(),
       studyStartDate: serverTimestamp(),
       // taskFrequency: "daily", // or "every3days"
-      sessionCount: 1,
+      sessionCount: 0,
       lastSeen: serverTimestamp(),
     });
   }

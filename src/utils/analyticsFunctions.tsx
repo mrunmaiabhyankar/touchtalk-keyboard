@@ -1,11 +1,23 @@
 import { logEvent } from "firebase/analytics";
 import { analytics } from "../firebase/firebaseConfig";
+import { setUserId, setUserProperties } from "firebase/analytics";
 
 export const logAnalyticsEvent = (eventName: string, params: Record<string, any> = {}) => {
   try {
     logEvent(analytics, eventName, params);
   } catch (error) {
     console.error("GA logging error:", error);
+  }
+};
+
+export const initializeUserAnalytics = (uid: string, email?: string) => {
+  try {
+    setUserId(analytics, uid); // ✅ Sets the GA User ID
+    if (email) {
+      setUserProperties(analytics, { email }); // Optional custom property
+    }
+  } catch (e) {
+    console.error("Error setting user analytics properties", e);
   }
 };
 

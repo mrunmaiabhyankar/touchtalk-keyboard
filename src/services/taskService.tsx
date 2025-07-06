@@ -13,15 +13,23 @@ export const getUserCurrentDay = async (uid: string): Promise<number | null> => 
 };
 
 // 2. Fetch the phrases for a given task day
-export const fetchTaskPhrasesByDay = async (dayNumber: number): Promise<string[]> => {
+export const fetchTaskPhrasesByDay = async (dayNumber: number): Promise<{ phraseId: number; phrase: string }[]> => {
   const q = query(collection(db, "tasks"), where("day", "==", dayNumber));
   const snapshot = await getDocs(q);
-  console.log("Fetched ", snapshot.size, "tasks for day", dayNumber);
-  const phrases: string[] = [];
+  console.log("Fetched", snapshot.size, "tasks for day", dayNumber);
+
+  const phrases: { phraseId: number, phrase: string }[] = [];
+
   snapshot.forEach((docSnap) => {
-    const data = docSnap.data() as { phrase: string };
-    phrases.push(data.phrase);
+    const data = docSnap.data();
+    if (data.phrase_no !== undefined && data.phrase) {
+      phrases.push({
+        phraseId: data.phrase_no,
+        phrase: data.phrase,
+      });
+    }
   });
+
   console.log("Fetched phrases for day", dayNumber, ":", phrases);
   return phrases;
 };
@@ -48,11 +56,11 @@ export const markSessionComplete = async (uid: string): Promise<void> => {
   }
 };
 
-export const isSessionAlreadyComplete = async (uid: string): Promise<boolean> => {
+export const isSessionAlreadyComplete = async (uid: string): Promise<string> => {
   const userRef = doc(db, "users", uid);
   const userSnap = await getDoc(userRef);
 
-  if (!userSnap.exists()) throw new Error("User not found");
+  if (!userSnap.exists()) return "login"; // User not found, return false
 
   const userData = userSnap.data();
   const lastSeen = userData.lastSeen?.toDate?.() || new Date(0);
@@ -77,7 +85,7 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<boolean> =>
   const isSameLocalDay = dayDifference === 0;
   console.log("Last session was on:", lastSeen.toLocaleDateString());
   console.log(userData.sessionCount, " sessions completed");
-  return isSameLocalDay;
+  return isSameLocalDay.toString(); // Return true or false as a string
 
   // return isSameDay;
 };

@@ -6,6 +6,7 @@ import {
   User,
 } from "firebase/auth";
 import { createOrUpdateUser } from "./userService";
+import { create } from "domain";
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/login',
@@ -31,9 +32,12 @@ export const completeLogin = async (): Promise<User | null> => {
 
     const result = await signInWithEmailLink(auth, email, window.location.href);
     const user = result.user;
-
+    createOrUpdateUser(user.uid, user.email)
     // Save email and clean up
-    localStorage.setItem("userEmail", user.email || "");
+    // console.log("User signed in:", user.uid);
+    
+    window.localStorage.setItem("userEmail", user.email || "");
+    window.localStorage.setItem("userUid", user.uid || "");
     localStorage.removeItem("emailForSignIn");
 
     return user;

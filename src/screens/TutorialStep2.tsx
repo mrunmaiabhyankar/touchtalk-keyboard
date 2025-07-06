@@ -23,7 +23,7 @@ const Keyboard: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="default" content="multiple" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="gridLayout" content="multiple" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
     </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PageHeading from '../components/PageHeading';
 import KeyboardGrid from '../components/KeyboardGrid';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ const Practice: React.FC = () => {
   const navigate = useNavigate();
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
+    navigate("/tutorial-done"); // Navigate to the next tutorial step
     console.log("Tutorial exited");
   };
 
@@ -14,6 +15,11 @@ const Practice: React.FC = () => {
     // Logic to handle the continue action
     navigate("/tutorial-done"); // Navigate to the next tutorial step
   };
+
+  useEffect(() => {
+    document.title = "Practice | TouchTalk";
+  }, []);
+
   return (
     <div className="page-container">
       <div className="top-section">

@@ -16,6 +16,10 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
+    document.title = "Login | TouchTalk";
+  }, []);
+
+  useEffect(() => {
     const finishLogin = async () => {
       try {
         const user = await completeLogin();

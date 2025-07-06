@@ -10,6 +10,7 @@ interface KeyboardGridProps {
   onClickContinue?: () => void;
   doesTap?: boolean;
   taskWord?: string;
+  taskID?: number;
 }
 
 const KeyboardGrid: React.FC<KeyboardGridProps> = ({
@@ -18,6 +19,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   content = "single",
   doesTap = false,
   taskWord = "VIBE",
+  taskID = 0,
   onClickContinue = () => {}
 }) => {
   const [text, setText] = useState("");
@@ -27,27 +29,28 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   const [backspaces, setBackspaces] = useState(0);
   const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
 
-  const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"];
-  const taskId = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0;
+  // const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"];
+  // const taskID = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0;
 
   useEffect(() => {
     setTaskStartTime(Date.now());
-    logAnalyticsEvent("text_box_focus", { taskId });
+    setText("");
+    // logAnalyticsEvent("text_box_focus", { taskID });
   }, [taskWord]);
 
   const handleCharacterInput = (inputChar: string, expectedChar: string) => {
     if (inputChar !== expectedChar && inputChar !== "⌫") {
       setErrors(prev => prev + 1);
-      logAnalyticsEvent("error_character", { inputChar, expectedChar, taskId });
+      logAnalyticsEvent("error_character", { inputChar, expectedChar, taskID });
     }
   };
 
-  const handleSwipe = () => {
-    if (variant === "singleCell") {
-      setSwipeCount(prev => prev + 1);
-      logAnalyticsEvent("swipe_count_incremented", { taskId });
-    }
-  };
+  // const handleSwipe = () => {
+  //   if (variant === "singleCell") {
+  //     setSwipeCount(prev => prev + 1);
+  //     // logAnalyticsEvent("swipe_count_incremented", { taskID });
+  //   }
+  // };
 
   const handleLetterSelected = (letter: string, index: number) => {
     const expectedChar = taskWord[text.length];
@@ -59,27 +62,41 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       setPressedCells(prev => (prev.includes(index) ? prev : [...prev, index]));
     }
 
+    console.log(swipeCount, " swipeCount before increment");
+    if (variant === "singleCell") {
+      setSwipeCount(prev => prev + 1);
+      console.log("Swipe count incremented:", swipeCount);
+    }
+
     switch (letter) {
       case "⌫":
         setBackspaces(prev => prev + 1);
         newText = newText.slice(0, -1);
-        logAnalyticsEvent("backspace_pressed", { taskId });
+        logAnalyticsEvent("backspace", { taskID });
         break;
       case "⇤":
         newText = "";
-        logAnalyticsEvent("clear_all", { taskId });
+        logAnalyticsEvent("clear_all", { taskID });
         break;
       case "␣":
         newText += " ";
         break;
       default:
-        newText = content === "multiple" ? newText + letter : letter;
+        if (variant === "gridLayout" && content === "single") {
+          newText = letter;
+        } else if (variant === "gridLayout" && content === "multiple") {
+          newText = ariaLabelData[index];
+        } else if (variant === "singleCell") {
+          newText = letter; // In single cell mode, replace the text with the selected letter
+        }
+        else{
+          newText += letter; // Default behavior for other variants
+        }
+        // newText = content === "multiple" ? newText + letter : letter;
         break;
     }
 
-    if (variant === "singleCell") {
-      setSwipeCount(prev => prev + 1);
-    }
+    
 
     setText(newText);
     onTextUpdate?.(newText);
@@ -97,24 +114,24 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   };
 
   const completeTask = (success: boolean) => {
-    logAnalyticsEvent("task_completed", { taskId, success });
+    logAnalyticsEvent("task_completed", { taskID, success });
   };
 
   const endTask = () => {
     if (taskStartTime) {
       const duration = (Date.now() - taskStartTime) / 1000;
-      logAnalyticsEvent("phrase_duration", { duration, taskId });
+      logAnalyticsEvent("phrase_duration", { duration, taskID });
     }
 
     logAnalyticsEvent("swipes_per_character", {
       swipes: swipeCount,
       characters: text.length,
-      taskId
+      taskID
     });
 
     logAnalyticsEvent("backspace_per_phrase", {
       count: backspaces,
-      taskId
+      taskID
     });
 
     const errorRate = (errors / (taskWord.length || 1)) * 100;
@@ -122,7 +139,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       errorRate,
       errors,
       length: taskWord.length,
-      taskId
+      taskID
     });
   };
 
@@ -155,9 +172,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           letters={["J", "K", "L", "M"]}
           ariaLabel={"JKLM"}
           onLetterSelected={(letter) => handleLetterSelected(letter, 3)}
-          onSwipe={({ direction, targetKey }) =>
-            logAnalyticsEvent("swipe_direction", { direction, targetKey })
-          }
+          // onSwipe={handleSwipe}
           content={content}
           doesTap={false}
         />

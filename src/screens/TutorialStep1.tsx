@@ -20,7 +20,7 @@ const GridLayout: React.FC = () => {
     <div className="page-container">
       <div className="top-section">
         <PageHeading title="Step 1: Cell Placement" onExit={handleExit} />
-        <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
+        <p style={{ maxWidth: "360px", margin: "3rem auto", lineHeight: "1.5"}}>
         The keyboard is a 3x3 grid, navigated left to right, top to bottom.
         Swiping right moves through the cells: 1–3 in the first row, 4–6 in the second,
         and 7–9 in the third. Double-tap each cell to learn its position.
@@ -28,7 +28,7 @@ const GridLayout: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="default" content="single" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="gridLayout" content="single" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
     </div>
     </div>
   )
