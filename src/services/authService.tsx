@@ -9,7 +9,7 @@ import { createOrUpdateUser } from "./userService";
 // import { create } from "domain";
 
 const actionCodeSettings = {
-  url: 'http://localhost:3000/login',
+  url: 'https://mrunmaiabhyankar.github.io/touchtalk-keyboard/',
   handleCodeInApp: true,
 };
 
