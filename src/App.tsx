@@ -16,6 +16,7 @@ import { ErrorBoundary } from "react-error-boundary";
 
 const App: React.FC = () => {
   return (
+    <BrowserRouter basename="/touchtalk-keyboard">
     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
       <Routes>
         <Route path="/tutorial-1" element={<GridLayout />} />
@@ -32,6 +33,8 @@ const App: React.FC = () => {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </ErrorBoundary>
+    </BrowserRouter>
+    
   )
 }
 
