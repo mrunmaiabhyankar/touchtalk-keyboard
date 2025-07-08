@@ -33,7 +33,7 @@ const Login: React.FC = () => {
           navigate("/home");
         }
       } catch (err) {
-        // console.error("Login error:", err);
+        console.error("Login error:", err);
       }
     };
 

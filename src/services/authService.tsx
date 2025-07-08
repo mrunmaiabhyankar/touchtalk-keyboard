@@ -16,13 +16,13 @@ const actionCodeSettings = {
 export const sendLoginLink = async (email: string): Promise<void> => {
   await sendSignInLinkToEmail(auth, email, actionCodeSettings);
   window.localStorage.setItem("emailForSignIn", email);
-  // console.log('Email sent to:', email);
+  console.log('Email sent to:', email);
 };
 
 export const completeLogin = async (): Promise<User | null> => {
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = localStorage.getItem("emailForSignIn");
-    // console.log("Email from localStorage:", email);
+    console.log("Email from localStorage:", email);
     // Ask user for email if not found locally (edge case: clicked link on different device)
     if (!email) {
       email = window.prompt("Please provide your email to complete sign-in:");

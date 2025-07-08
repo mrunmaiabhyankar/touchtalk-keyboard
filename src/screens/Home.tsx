@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   const checkIfTasksNeeded = async () => {
     const uid = localStorage.getItem("userUid") || '';
     const alreadyCompleted = await isSessionAlreadyComplete(uid);
-    // console.log("User ID:", uid);
+    console.log("User ID:", uid);
     // console.log("Already completed today's tasks:", alreadyCompleted);
     if (alreadyCompleted === "true") {
       // They've already done today's task → maybe redirect or show a message
