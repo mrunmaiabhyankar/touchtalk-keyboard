@@ -4,6 +4,7 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   User,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut
 } from "firebase/auth";
 import { createOrUpdateUser } from "./userService";
 // import { create } from "domain";
@@ -44,4 +45,25 @@ export const completeLogin = async (): Promise<User | null> => {
   }
 
   return null;
+};
+
+export const registerWithEmail = async (email: string, password: string) => {
+  const result = await createUserWithEmailAndPassword(auth, email, password);
+  const user = result.user;
+  await createOrUpdateUser(user.uid, email);
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userUid", user.uid);
+  return user;
+};
+
+export const loginWithEmail = async (email: string, password: string) => {
+  const result = await signInWithEmailAndPassword(auth, email, password);
+  const user = result.user;
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userUid", user.uid);
+  return user;
+};
+
+export const logout = async () => {
+  return await signOut(auth);
 };

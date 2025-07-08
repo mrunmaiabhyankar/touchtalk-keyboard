@@ -1,18 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { completeLogin, sendLoginLink } from '../services/authService';
+import { completeLogin, loginWithEmail, registerWithEmail, sendLoginLink } from '../services/authService';
 
 import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig';
 
 const Login: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
+      if (user) {
+      localStorage.setItem("userEmail", user.email || "");
+      localStorage.setItem("userUid", user.uid || "");
+      navigate("/");
+    } else {
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userUid");
+      navigate("/login");
+    }
+    });
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await sendLoginLink(email);
-    setSubmitted(true);
+    try {
+      if (isRegister) {
+        await registerWithEmail(email, password);
+      } else {
+        await loginWithEmail(email, password);
+      }
+      window.location.href = "/"; // or use navigate from react-router
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   useEffect(() => {
@@ -44,19 +73,12 @@ const Login: React.FC = () => {
   return (
     <div className="page-container">
       <div className="top-section">
-        <h1>Looks like you're logged out!</h1>
+        <h1>{isRegister ? "Register" : "Login"}</h1>
         <p className="description">
-          Enter your name and email to receive a magic link to log in!
+          Enter email and password to {isRegister ? "register" : "login"}.
         </p>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            required
-            style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
-          />
+          
           <input
             type="email"
             placeholder="Email"
@@ -65,14 +87,25 @@ const Login: React.FC = () => {
             required
             style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
           />
+          <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+          style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
+        />
           <button
             type="submit"
             className="start-button"
             style={{ marginTop: 12 }}
             disabled={submitted}
           >
-            {submitted ? "Magic Link Sent!" : "Send Magic Link"}
+            {isRegister ? "Register" : "Login"}
           </button>
+          <button type="button" onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? "Switch to Login" : "Switch to Register"}
+        </button>
         </form>
       </div>
     </div>
