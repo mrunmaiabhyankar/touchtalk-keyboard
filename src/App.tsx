@@ -1,5 +1,5 @@
 import React from "react"
-import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import GridLayout from "./screens/TutorialStep1"
 import Login from "./screens/Login";
 import Gestures from "./screens/TutorialStep3";
