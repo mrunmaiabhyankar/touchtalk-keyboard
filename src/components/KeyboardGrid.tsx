@@ -72,15 +72,27 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
     switch (letter) {
       case "⌫":
         setBackspaces(prev => prev + 1);
+        if(newText.length > 0) {
+
+        var deletedChar = newText[newText.length - 1];
         newText = newText.slice(0, -1);
+        setAriaMessage("")
+        setTimeout(() => {
+          setAriaMessage(`Deleted ${deletedChar}`)
+          }, 10)
         logAnalyticsEvent("backspace", { taskID });
+        } else{
+          setAriaMessage("No character to delete");
+        }
         break;
       case "⇤":
         newText = "";
+        setAriaMessage(`Cleared all`)
         logAnalyticsEvent("clear_all", { taskID });
         break;
       case "␣":
         newText += " ";
+        setAriaMessage("Space added")
         break;
       default:
         if (variant === "gridLayout" && content === "single") {

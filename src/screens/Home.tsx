@@ -5,6 +5,7 @@ import { isSessionAlreadyComplete } from '../services/taskService';
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { initializeUserAnalytics } from '../utils/analyticsFunctions';
+import { logout } from '../services/authService';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ const Home: React.FC = () => {
         <div className='btn-grp'>
           <button className='primary-btn' onClick={() => navigate(nextPageLink)}>Today's task</button>
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
+          <button className='secondary-btn' onClick={() => logout()}>Tutorial</button>
         </div>
       </div>
     </div>
