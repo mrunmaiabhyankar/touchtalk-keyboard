@@ -13,6 +13,7 @@ import DailyTasksDone from "./screens/DailyTasksDone";
 import { TaskProvider } from "./screens/TaskContext";
 import ErrorFallback from "./screens/ErrorScreen";
 import { ErrorBoundary } from "react-error-boundary";
+import Register from "./screens/Register";
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
         <Route path="/tutorial-2" element={<Keyboard />} />
         <Route path="/practice" element={<Practice />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/tutorial-done" element={<TutorialDone />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/tasks-done" element={<DailyTasksDone />} />

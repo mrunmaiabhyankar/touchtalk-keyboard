@@ -60,12 +60,19 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
   };
 
   const handleDragEnd = () => {
+
     if (selectedLetter && onLetterSelected) {
       onLetterSelected(selectedLetter, 0);
+      var ariaMessage = `Selected ${selectedLetter}`;
+      const specialChars = ["␣", "⇤", "⌫"];
+
+      if (specialChars.includes(selectedLetter)) {
+                ariaMessage = "";
+            }
 
       const liveRegion = document.getElementById("live-region");
       if (liveRegion) {
-        liveRegion.textContent = "";
+        liveRegion.textContent = ariaMessage;
         setTimeout(() => {
           liveRegion.textContent = `Selected ${selectedLetter}`;
         }, 10);

@@ -5,12 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -33,11 +32,8 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (isRegister) {
-        await registerWithEmail(email, password);
-      } else {
-        await loginWithEmail(email, password);
-      }
+      
+      await registerWithEmail(email, password);
       window.location.href = "/touchtalk-keyboard"; // or use navigate from react-router
     } catch (err: any) {
       setError(err.message);
@@ -73,9 +69,9 @@ const Login: React.FC = () => {
   return (
     <div className="page-container">
       <div style={{ maxWidth: '24rem', margin: '0 auto', padding: '2rem', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-        <h1>{"Login"}</h1>
+        <h1>{"Register"}</h1>
         <p className="description">
-          Enter email and password to login.
+          Enter email and password to register.
         </p>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
           
@@ -101,10 +97,10 @@ const Login: React.FC = () => {
             style={{ marginTop: 12 }}
             disabled={submitted}
           >
-            Login
+            Register
           </button>
-          <button type="button" onClick={() => setIsRegister(!isRegister)}>
-          Switch to Register
+          <button type="button" onClick={() => navigate("/login")}>
+          Switch to Login
         </button>
         </form>
       </div>
@@ -112,4 +108,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;

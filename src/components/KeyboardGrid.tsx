@@ -24,6 +24,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
 }) => {
   const [text, setText] = useState("");
   const [pressedCells, setPressedCells] = useState<number[]>([]);
+  const [ariaMessage, setAriaMessage] = useState(text)
   const [swipeCount, setSwipeCount] = useState(0);
   const [errors, setErrors] = useState(0);
   const [backspaces, setBackspaces] = useState(0);
@@ -86,10 +87,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           newText = letter;
         } else if (variant === "gridLayout" && content === "multiple") {
           newText = ariaLabelData[index];
-        } else if (variant === "singleCell") {
-          newText = letter; // In single cell mode, replace the text with the selected letter
-        }
-        else{
+        } else{
           newText += letter; // Default behavior for other variants
         }
         // newText = content === "multiple" ? newText + letter : letter;
@@ -170,7 +168,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       {variant === "singleCell" ? (
         <KeyboardCell
           letters={["J", "K", "L", "M"]}
-          ariaLabel={"JKLM"}
+          ariaLabel={"J,K,L,M"}
           onLetterSelected={(letter) => handleLetterSelected(letter, 3)}
           // onSwipe={handleSwipe}
           content={content}
@@ -184,8 +182,8 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
             gridTemplateColumns: "repeat(3, 1fr)",
             gridTemplateRows: "repeat(3, 1fr)"
           }}
-          role="region"
-          aria-label="Keyboard region"
+          // role="row"
+          // aria-label="Keyboard region"
           tabIndex={0}
         >
           {(content === "single" ? gridCells : gridLetters).map((item, index) => (
@@ -201,7 +199,17 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           ))}
         </div>
       )}
-
+<div
+                    id="live-region"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    // aria-hidden="true"
+                    // role="status"
+                    tabIndex={-1}
+                    style={{ position: "absolute", left: "-9999px" }}
+                >
+                    {ariaMessage}
+                </div>
       <TextBox
         value={text}
         showContinueButton={showContinue}
