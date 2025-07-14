@@ -68,7 +68,7 @@ const Home: React.FC = () => {
         <div className='btn-grp'>
           <button className='primary-btn' onClick={() => navigate(nextPageLink)}>Today's task</button>
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
-          <button className='secondary-btn' onClick={() => logout()}>Tutorial</button>
+          <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
       </div>
     </div>

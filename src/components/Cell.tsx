@@ -73,9 +73,6 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
       const liveRegion = document.getElementById("live-region");
       if (liveRegion) {
         liveRegion.textContent = ariaMessage;
-        setTimeout(() => {
-          liveRegion.textContent = `Selected ${selectedLetter}`;
-        }, 10);
 
         setTimeout(() => {
           liveRegion.textContent = "";
