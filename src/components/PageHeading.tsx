@@ -11,7 +11,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit }) => {
   const navigate = useNavigate();
 
   return (
-    <header className="page-heading">
+    <div className="page-heading">
       <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
         <ArrowLeft size={28} />
       </button>
@@ -19,7 +19,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit }) => {
       <button className="nav-btn" aria-label="Exit tutorial" onClick={onExit}>
         <X size={28} />
       </button>
-    </header>
+    </div>
   );
 };
 

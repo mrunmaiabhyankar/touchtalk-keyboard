@@ -25,7 +25,7 @@ const GridLayout: React.FC = () => {
   };
   return (
     <div className="page-container">
-      <div ref={headingRef} className="top-section" tabIndex={-1}>
+      <div ref={headingRef} className="top-section">
         <PageHeading title="Step 1: Cell Placement" onExit={handleExit} />
         <p style={{ maxWidth: "360px", margin: "3rem auto", lineHeight: "1.5"}}>
         The keyboard is a 3x3 grid, navigated left to right, top to bottom.
