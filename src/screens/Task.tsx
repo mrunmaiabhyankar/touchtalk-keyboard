@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { fetchTaskPhrasesByDay, getUserCurrentDay, markSessionComplete } from '../services/taskService';
 import { useTask } from './TaskContext';
+import { ArrowLeft } from 'lucide-react';
 
 
 const Task: React.FC = () => {
@@ -75,7 +76,12 @@ useEffect(() => {
   return (
     <div className="page-container">
       <div className="top-section">
-        <PageHeading title={pageTitle} onExit={handleExit} />
+        <header className="page-heading">
+      <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
+        <ArrowLeft size={28} />
+      </button>
+      <h1 className="page-title">{pageTitle}</h1>
+    </header>
         <p className='phrase-text'>
         {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
         </p>

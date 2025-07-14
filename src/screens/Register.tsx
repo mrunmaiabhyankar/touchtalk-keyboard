@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { completeLogin, loginWithEmail, registerWithEmail, sendLoginLink } from '../services/authService';
 
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ const Register: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
@@ -27,6 +28,12 @@ const Register: React.FC = () => {
     });
 
     return () => unsubscribe(); // Cleanup listener
+  }, []);
+
+  useEffect(() => {
+    if (headingRef.current) {
+      headingRef.current.focus();
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -69,7 +76,7 @@ const Register: React.FC = () => {
   return (
     <div className="page-container">
       <div style={{ maxWidth: '24rem', margin: '0 auto', padding: '2rem', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-        <h1>{"Register"}</h1>
+        <h1 ref={headingRef}>{"Register"}</h1>
         <p className="description">
           Enter email and password to register.
         </p>

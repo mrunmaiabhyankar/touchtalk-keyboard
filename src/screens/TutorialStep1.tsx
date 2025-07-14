@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import KeyboardGrid from "../components/KeyboardGrid"
 import PageHeading from "../components/PageHeading"
 import { useNavigate } from "react-router-dom";
 
 
 const GridLayout: React.FC = () => {
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
   const navigate = useNavigate();
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
@@ -12,13 +13,19 @@ const GridLayout: React.FC = () => {
     // console.log("Tutorial exited");
   };
 
+  useEffect(() => {
+      if (headingRef.current) {
+        headingRef.current.focus();
+      }
+    }, []);
+
   const handleContinue = () => {
     // console.log("Continue clicked");
     navigate("/tutorial-2"); // Navigate to the next tutorial step
   };
   return (
     <div className="page-container">
-      <div className="top-section">
+      <div ref={headingRef} className="top-section">
         <PageHeading title="Step 1: Cell Placement" onExit={handleExit} />
         <p style={{ maxWidth: "360px", margin: "3rem auto", lineHeight: "1.5"}}>
         The keyboard is a 3x3 grid, navigated left to right, top to bottom.

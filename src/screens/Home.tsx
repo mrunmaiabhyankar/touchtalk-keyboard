@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isSessionAlreadyComplete } from '../services/taskService';
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -9,9 +9,15 @@ import { logout } from '../services/authService';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
   
   const [nextPageLink, setNextPageLink] = React.useState<string>('/');
   
+  useEffect(() => {
+    if (headingRef.current) {
+      headingRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
@@ -60,7 +66,7 @@ const Home: React.FC = () => {
   return (
     <div className="page-container">
       <div style={{ textAlign: 'center', padding: '2rem', alignContent: 'center', height: '100vh'  }}>
-        <h1>TouchTalk</h1>
+        <h1 ref={headingRef}>TouchTalk</h1>
         <p>
           The 3×3 keyboard layout is arranged in a simple 3×3 grid, with each cell containing 3 or 4 letters.
           You can access the letters through swiping gestures. Let's learn how to use the keyboard.
