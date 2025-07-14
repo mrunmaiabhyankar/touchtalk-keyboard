@@ -89,7 +89,7 @@ useEffect(() => {
       <div className="grid-section">
       <KeyboardGrid 
       key={0}     
-      variant="default" content="multiple" doesTap={true} onClickContinue={handleContinue} taskID={tasks[currentIndex]?.phraseId || 0} taskWord={tasks[currentIndex]?.phrase || "this is sample"} />
+      variant="default" content="multiple" doesTap={false} onClickContinue={handleContinue} taskID={tasks[currentIndex]?.phraseId || 0} taskWord={tasks[currentIndex]?.phrase || "this is sample"} />
     </div>
     </div>
   );
