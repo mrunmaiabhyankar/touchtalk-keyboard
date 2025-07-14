@@ -148,14 +148,14 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
           aria-label={currentAriaLabel}
           className="cell-multiple"
         >
-          <div aria-hidden="true" tabIndex={-1} className="cell-row">
+          <div aria-hidden="true" className="cell-row">
             <div>{letters[1]}</div>
           </div>
-          <div aria-hidden="true" tabIndex={-1} className="cell-row-middle">
+          <div aria-hidden="true" className="cell-row-middle">
             <div>{letters[0]}</div>
             <div>{letters[2]}</div>
           </div>
-          <div aria-hidden="true" tabIndex={-1} className="cell-row">
+          <div aria-hidden="true" className="cell-row">
             <div>{letters[3]}</div>
           </div>
         </motion.div>
