@@ -105,9 +105,6 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
         // newText = content === "multiple" ? newText + letter : letter;
         break;
     }
-
-    
-
     setText(newText);
     onTextUpdate?.(newText);
   };
@@ -217,7 +214,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           aria-atomic="true"
           aria-hidden="true"
               // role="status"
-          tabIndex={-1}
+          // tabIndex={-1}
           style={{ position: "absolute", left: "-9999px" }}
           >
           {ariaMessage}
