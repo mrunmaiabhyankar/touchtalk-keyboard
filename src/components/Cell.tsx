@@ -90,6 +90,8 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
       }
     } else if (onLetterSelected) {
       onLetterSelected(ariaLabel, 0);
+    } else{
+      
     }
   };
 

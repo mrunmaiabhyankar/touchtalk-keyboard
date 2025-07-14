@@ -204,7 +204,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
               letters={Array.isArray(item) ? item : [item]}
               ariaLabel={content === "single" ? String(item) : ariaLabelData[index]}
               onLetterSelected={(letter) => handleLetterSelected(letter, index)}
-              onSwipe={() => {}}
+              // onSwipe={() => {}}
               content={content}
               doesTap={doesTap}
             />
