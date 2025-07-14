@@ -212,10 +212,20 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
-          // aria-hidden="true"
+          aria-hidden="true"
               // role="status"
-          // tabIndex={-1}
-          style={{ position: "absolute", left: "-9999px" }}
+          tabIndex={-1}
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            margin: '-1px',
+            border: '0',
+            padding: '0',
+            overflow: 'hidden',
+            clip: 'rect(0 0 0 0)',
+            clipPath: 'inset(50%)',
+          }}
           >
           {ariaMessage}
         </div>
