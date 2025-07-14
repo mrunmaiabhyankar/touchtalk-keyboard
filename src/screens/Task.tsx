@@ -12,7 +12,7 @@ const Task: React.FC = () => {
   const user = getAuth().currentUser;
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
-    navigate("/home"); // Adjust the path as needed
+    navigate("/"); // Adjust the path as needed
     
     // console.log("Task exited");
   };

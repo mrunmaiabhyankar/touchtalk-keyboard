@@ -9,7 +9,7 @@ const GridLayout: React.FC = () => {
   const navigate = useNavigate();
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
-    navigate("/home"); // Adjust the path as needed
+    navigate("/"); // Adjust the path as needed
     // console.log("Tutorial exited");
   };
 
@@ -35,7 +35,7 @@ const GridLayout: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="gridLayout" content="single" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="gridLayout" content="single" doesTap={false} onClickContinue={handleContinue} taskWord="VIBE" />
     </div>
     </div>
   )

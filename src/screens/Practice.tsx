@@ -7,7 +7,7 @@ const Practice: React.FC = () => {
   const navigate = useNavigate();
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
-    navigate("/tutorial-done"); // Navigate to the next tutorial step
+    navigate("/"); // Navigate to the next tutorial step
     // console.log("Tutorial exited");
   };
 
@@ -29,7 +29,7 @@ const Practice: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="default" content="multiple" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="default" content="multiple" doesTap={false} onClickContinue={handleContinue} taskWord="VIBE" />
     </div>
     </div>
   );
