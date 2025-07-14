@@ -33,12 +33,10 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (isRegister) {
-        await registerWithEmail(email, password);
-      } else {
+      
         await loginWithEmail(email, password);
-      }
-      window.location.href = "/touchtalk-keyboard"; // or use navigate from react-router
+      // window.location.href = "/touchtalk-keyboard"; // or use navigate from react-router
+      navigate("/");
     } catch (err: any) {
       setError(err.message);
     }
@@ -103,7 +101,7 @@ const Login: React.FC = () => {
           >
             Login
           </button>
-          <button type="button" onClick={() => setIsRegister(!isRegister)}>
+          <button type="button" onClick={() => navigate("/register")}>
           Switch to Register
         </button>
         </form>
