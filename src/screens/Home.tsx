@@ -9,7 +9,7 @@ import { logout } from '../services/authService';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const headingRef = useRef<HTMLDivElement | null>(null);
   
   const [nextPageLink, setNextPageLink] = React.useState<string>('/');
   

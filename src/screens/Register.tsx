@@ -23,7 +23,7 @@ const Register: React.FC = () => {
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userUid");
-      navigate("/login");
+      navigate("/register");
     }
     });
 

@@ -1,6 +1,17 @@
 import { logEvent } from "firebase/analytics";
 import { analytics } from "../firebase/firebaseConfig";
 import { setUserId, setUserProperties } from "firebase/analytics";
+import { useEffect, useRef } from "react";
+
+export function useFocusOnLoad() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
+
+  return ref;
+}
 
 export const logAnalyticsEvent = (eventName: string, params: Record<string, any> = {}) => {
   try {
