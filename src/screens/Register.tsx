@@ -20,10 +20,6 @@ const Register: React.FC = () => {
       localStorage.setItem("userEmail", user.email || "");
       localStorage.setItem("userUid", user.uid || "");
       navigate("/");
-    } else {
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userUid");
-      navigate("/register");
     }
     });
 
@@ -40,8 +36,10 @@ const Register: React.FC = () => {
     e.preventDefault();
     try {
       
-      await registerWithEmail(email, password);
-      window.location.href = "/touchtalk-keyboard"; // or use navigate from react-router
+      await registerWithEmail(email, password).then(() => {
+        navigate("/") // Redirect to home after successful registration
+      }) ;
+      // window.location.href = "/touchtalk-keyboard"; // or use navigate from react-router
     } catch (err: any) {
       setError(err.message);
     }
