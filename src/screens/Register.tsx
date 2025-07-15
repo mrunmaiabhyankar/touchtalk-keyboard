@@ -48,30 +48,30 @@ const Register: React.FC = () => {
   };
 
   useEffect(() => {
-    document.title = "Login | TouchTalk";
+    document.title = "Register | TouchTalk";
   }, []);
 
-  useEffect(() => {
-    const finishLogin = async () => {
-      try {
-        const user = await completeLogin();
-        // console.log("User after login:", user);
-        // If user is null, it means login was not successful
-        if (!user) {
-          // console.error("Login failed. User is null.");
-          return;
-        }
-        if (user) {
-          navigate("/home");
-        }
-      } catch (err) {
-        console.error("Login error:", err);
-      }
-    };
+  // useEffect(() => {
+  //   const finishLogin = async () => {
+  //     try {
+  //       const user = await completeLogin();
+  //       // console.log("User after login:", user);
+  //       // If user is null, it means login was not successful
+  //       if (!user) {
+  //         // console.error("Login failed. User is null.");
+  //         return;
+  //       }
+  //       if (user) {
+  //         navigate("/");
+  //       }
+  //     } catch (err) {
+  //       console.error("Login error:", err);
+  //     }
+  //   };
 
-    finishLogin();
+  //   finishLogin();
 
-  }, [navigate]);
+  // }, [navigate]);
 
   return (
     <div className="page-container">
