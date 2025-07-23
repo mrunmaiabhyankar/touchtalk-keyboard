@@ -9,7 +9,7 @@ export const getUserCurrentDay = async (uid: string): Promise<number | null> => 
   if (!userSnap.exists()) throw new Error("User not found");
 
   const userData = userSnap.data();
-  return userData.sessionCount || 1;
+  return userData.sessionCount || 0;
 };
 
 // 2. Fetch the phrases for a given task day

@@ -34,7 +34,7 @@ const Gestures: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="singleCell" content="multiple" doesTap={false} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="singleCell" content="multiple" doesTap={false} onClickContinue={handleContinue} taskWord="None" taskID={-1}/>
     </div>
     </div>
   );

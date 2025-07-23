@@ -35,7 +35,7 @@ const GridLayout: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="gridLayout" content="single" doesTap={true} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="gridLayout" content="single" doesTap={true} onClickContinue={handleContinue} taskWord="none" taskID={-1} />
     </div>
     </div>
   )

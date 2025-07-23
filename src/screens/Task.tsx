@@ -48,7 +48,7 @@ const Task: React.FC = () => {
 
 useEffect(() => {
   if (tasks.length > 0) {
-    // console.log("Tasks updated:", tasks);
+    // console.log("Tasks updated:", tasks[currentIndex].phraseId);
     // setCompletedTasks(0);
     // console.log("Tasks loaded for day - this is the latesttttttttttt:", tasks.length);
     // console.log("Phrase ID for current task:", tasks[currentIndex].phraseId);
@@ -59,6 +59,9 @@ useEffect(() => {
 useEffect(() => {
   if (!loading && tasks.length === 0) {
     markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
+    if(userDay == 7){
+      navigate("/thank-you");
+    }
     navigate("/tasks-done");
   }
 }, [tasks, loading]);
