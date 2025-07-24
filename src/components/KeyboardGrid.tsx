@@ -97,11 +97,11 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       default:
         if (variant === "gridLayout" && content === "single") {
           newText = letter;
-          setAriaMessage(`Pressed`);
+          // setAriaMessage(`Pressed`);
           
         } else if (variant === "gridLayout" && content === "multiple") {
           newText = ariaLabelData[index];
-          setAriaMessage(`Pressed`);
+          // setAriaMessage(`Pressed`);
         } else{
           newText += letter; // Default behavior for other variants
           // setTimeout(() => {
@@ -218,16 +218,15 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
-          // aria-hidden="true"
           role="status"
-          tabIndex={-1} // ensures it's not focusable
+          tabIndex={-1}
           style={{
             position: 'absolute',
             width: '1px',
             height: '1px',
             margin: '-1px',
-            border: '0',
             padding: '0',
+            border: '0',
             overflow: 'hidden',
             clip: 'rect(0 0 0 0)',
             clipPath: 'inset(50%)',

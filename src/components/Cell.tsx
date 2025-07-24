@@ -83,14 +83,15 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
 
   const handleClick = () => {
     if (doesTap && onLetterSelected) {
-      // const liveRegion = document.getElementById("live-region");
-      // if (liveRegion) {
-      //   liveRegion.textContent = `Pressed`;
-      //   // setTimeout(() => {
-      //   //   liveRegion.textContent = "";
-      //   // }, 10);
-      // }
       onLetterSelected(letters[0], 0);
+      const liveRegion = document.getElementById("live-region");
+      if (liveRegion) {
+        liveRegion.textContent = `Pressed`;
+        // setTimeout(() => {
+        //   liveRegion.textContent = "";
+        // }, 10);
+      }
+      
     } else if (onLetterSelected) {
       onLetterSelected(ariaLabel, 0);
     } 
