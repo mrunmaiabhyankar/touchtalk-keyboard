@@ -98,7 +98,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
         if (variant === "gridLayout" && content === "single") {
           newText = letter;
           setTimeout(() => {
-          setAriaMessage("");
+          setAriaMessage(letter + " Pressed");
           }, 10)
         } else if (variant === "gridLayout" && content === "multiple") {
           newText = ariaLabelData[index];
@@ -221,9 +221,9 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
-          aria-hidden="true"
+          // aria-hidden="true"
           role="status"
-          // tabIndex={-1} // ensures it's not focusable
+          tabIndex={-1} // ensures it's not focusable
           style={{
             position: 'absolute',
             width: '1px',

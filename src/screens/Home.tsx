@@ -76,7 +76,7 @@ const Home: React.FC = () => {
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
           <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
-        <p>Version v1.2</p>
+        <p>Version v1.3</p>
       </div>
     </div>
   );
