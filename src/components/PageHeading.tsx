@@ -19,7 +19,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit, ref }) => {
       if (headingRef.current) {
         headingRef.current.focus();
       }
-    }, 100); // Slight delay helps on mobile
+    }, 50); // Slight delay helps on mobile
 
     return () => clearTimeout(timeout);
   }, [location.pathname]); // Re-focus on route change
