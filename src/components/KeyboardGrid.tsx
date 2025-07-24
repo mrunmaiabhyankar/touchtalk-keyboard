@@ -22,7 +22,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   taskID = 0,
   onClickContinue = () => {}
 }) => {
-  const [text, setText] = useState("Text box");
+  const [text, setText] = useState("");
   const [pressedCells, setPressedCells] = useState<number[]>([]);
   const [ariaMessage, setAriaMessage] = useState(text)
   const [swipeCount, setSwipeCount] = useState(0);
@@ -212,9 +212,9 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
-          // aria-hidden="true"
+          aria-hidden="true"
               // role="status"
-          tabIndex={-1}
+          // tabIndex={-1}
           style={{
             position: 'absolute',
             width: '1px',
