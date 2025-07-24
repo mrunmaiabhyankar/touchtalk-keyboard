@@ -13,11 +13,11 @@ const GridLayout: React.FC = () => {
     // console.log("Tutorial exited");
   };
 
-  useEffect(() => {
-      if (headingRef.current) {
-        headingRef.current.focus();
-      }
-    }, []);
+  // useEffect(() => {
+  //     if (headingRef.current) {
+  //       headingRef.current.focus();
+  //     }
+  //   }, []);
 
   const handleContinue = () => {
     // console.log("Continue clicked");
