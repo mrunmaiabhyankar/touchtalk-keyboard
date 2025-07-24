@@ -221,9 +221,9 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
-          // aria-hidden="true"
+          aria-hidden="true"
               // role="status"
-          tabIndex={-1}
+          // tabIndex={-1}
           style={{
             position: 'absolute',
             width: '1px',
@@ -234,12 +234,13 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
             overflow: 'hidden',
             clip: 'rect(0 0 0 0)',
             clipPath: 'inset(50%)',
+            whiteSpace: 'nowrap',
           }}
           >
           {ariaMessage}
         </div>
       <TextBox
-        value={text}
+        value={`Text box: ${text}`}
         showContinueButton={showContinue}
         onClickContinue={handleContinue}
       />
