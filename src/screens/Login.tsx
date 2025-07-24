@@ -111,6 +111,7 @@ const Login: React.FC = () => {
           <button type="button" onClick={() => navigate("/register")}>
           Switch to Register
         </button>
+        <p>{error}</p>
         </form>
       </div>
     </div>
