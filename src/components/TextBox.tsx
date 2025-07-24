@@ -19,13 +19,7 @@ const TextBox: React.FC<TextBoxProps> = ({
         <div
             id="parent-box"
             className="text-box"
-            style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'stretch',
-                height: '100%',
-                width: '100%',
-            }}
+            
         >
             <div
                 id="text"
@@ -33,10 +27,6 @@ const TextBox: React.FC<TextBoxProps> = ({
                 // aria-readonly="true"
                 aria-label={`Text box, ${value}`}
                 tabIndex={0}
-                style={{
-                    flex: 1,
-                    padding: '12px',
-                }}
             >
                 {value}
             </div>
@@ -49,17 +39,21 @@ const TextBox: React.FC<TextBoxProps> = ({
                         : "Complete all steps to continue"
                 }
                 style={{
-                    width: '10%',
-                    padding: '12px',
+                    // marginLeft: "12px",
+                    // padding: "8px 16px",
                     backgroundColor: showContinueButton ? "#4a934a" : "#888",
                     color: "white",
-                    border: 'none',
+                    // borderRadius: "5px",
+                    // height: "100%",
                     cursor: showContinueButton ? "pointer" : "not-allowed",
+                    // fontSize: "12pt",
+                    // fontFamily: "Arial",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    
                     opacity: showContinueButton ? 1 : 0.6,
-                    }}
+                }}
             >
     Continue
 </button>
