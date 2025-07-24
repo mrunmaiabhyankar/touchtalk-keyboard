@@ -97,16 +97,11 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       default:
         if (variant === "gridLayout" && content === "single") {
           newText = letter;
-          setAriaMessage("");
-          setTimeout(() => {
           setAriaMessage(`Pressed ${letter}`);
-          }, 10)
+          
         } else if (variant === "gridLayout" && content === "multiple") {
           newText = ariaLabelData[index];
-          setAriaMessage("");
-          setTimeout(() => {
           setAriaMessage(`Pressed ${letter}`);
-          }, 10)
         } else{
           newText += letter; // Default behavior for other variants
           // setTimeout(() => {

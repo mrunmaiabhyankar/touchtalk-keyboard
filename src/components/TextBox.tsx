@@ -19,7 +19,6 @@ const TextBox: React.FC<TextBoxProps> = ({
         <div
             id="parent-box"
             className="text-box"
-            
         >
             <div
                 id="text"
