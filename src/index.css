@@ -48,6 +48,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding: 0;
 }
 
 .page-heading {
@@ -233,7 +234,7 @@ button:hover {
   text-align: center;
   flex-grow: 1;
   overflow: auto;
-  max-height: 50vh;
+  height: 50vh;
   box-sizing: border-box;
 }
 
