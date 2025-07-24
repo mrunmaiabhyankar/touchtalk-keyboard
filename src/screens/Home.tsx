@@ -14,15 +14,10 @@ const Home: React.FC = () => {
   const [nextPageLink, setNextPageLink] = React.useState<string>('/');
   
   useEffect(() => {
-      // Wait until after screen transition
-      const timeout = setTimeout(() => {
-        if (headingRef.current) {
-          headingRef.current.focus();
-        }
-      }, 50); // Slight delay helps on mobile
-  
-      return () => clearTimeout(timeout);
-    }, [location.pathname]); // Re-focus on route change
+    if (headingRef.current) {
+      headingRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
