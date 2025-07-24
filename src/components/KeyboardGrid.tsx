@@ -221,6 +221,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
+          aria-hidden="true"
           role="status"
           tabIndex={-1} // ensures it's not focusable
           style={{
