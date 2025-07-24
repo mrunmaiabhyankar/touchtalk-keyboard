@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Routes, Route, Navigate } from 'react-router-dom';
 import GridLayout from "./screens/TutorialStep1"
 import Login from "./screens/Login";
@@ -16,6 +16,19 @@ import { ErrorBoundary } from "react-error-boundary";
 import Register from "./screens/Register";
 
 const App: React.FC = () => {
+
+  useEffect(() => {
+  const setAppHeight = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+  };
+
+  setAppHeight();
+  window.addEventListener('resize', setAppHeight);
+
+  return () => window.removeEventListener('resize', setAppHeight);
+}, []);
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
       <Routes>
