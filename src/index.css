@@ -136,15 +136,14 @@ button:hover {
 /* Text box to show typed word */
 .text-box {
   display: flex;
-  flex-direction: 'row';
-  align-items: 'stretch';
-  /* justify-content: space-between; */
+  align-items: center;
+  justify-content: space-between;
   border: 1px solid #8c8c8c;
   padding: 1rem;
   background-color: #292929;
   height: 6vh;
   overflow-y: hidden;
-  width: '100%';
+  width: '100%',
   
 }
 
