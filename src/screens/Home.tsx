@@ -14,10 +14,15 @@ const Home: React.FC = () => {
   const [nextPageLink, setNextPageLink] = React.useState<string>('/');
   
   useEffect(() => {
-    if (headingRef.current) {
-      headingRef.current.focus();
-    }
-  }, []);
+      // Wait until after screen transition
+      const timeout = setTimeout(() => {
+        if (headingRef.current) {
+          headingRef.current.focus();
+        }
+      }, 50); // Slight delay helps on mobile
+  
+      return () => clearTimeout(timeout);
+    }, [location.pathname]); // Re-focus on route change
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
@@ -76,7 +81,7 @@ const Home: React.FC = () => {
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
           <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
-        <p>Version v1.4</p>
+        <p>Version v1.5</p>
       </div>
     </div>
   );
