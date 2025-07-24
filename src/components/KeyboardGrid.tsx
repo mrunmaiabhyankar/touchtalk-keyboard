@@ -240,7 +240,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           {ariaMessage}
         </div>
       <TextBox
-        value={`Text box: ${text}`}
+        value={text}
         showContinueButton={showContinue}
         onClickContinue={handleContinue}
       />
