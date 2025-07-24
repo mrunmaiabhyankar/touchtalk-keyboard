@@ -25,7 +25,7 @@ const Practice: React.FC = () => {
   return (
     <div className="page-container">
       <div className="top-section">
-        <PageHeading title="Let's practice" onExit={handleExit} ref={headingRef}/>
+        <PageHeading title="Let's practice" onExit={handleExit} focusRef={headingRef}/>
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
         Type the sentence 'Hi there' using the layout you've learned. Use the space key to separate words and the delete key to correct mistakes. The 'Continue' button will appear next to the text box once you're ready to proceed.
         </p>

@@ -5,12 +5,12 @@ import { ArrowLeft, X } from "lucide-react";
 interface PageHeadingProps {
   title: string;
   onExit?: () => void;
-  ref: React.RefObject<HTMLHeadingElement | null>;
+  focusRef: React.RefObject<HTMLHeadingElement | null>;
 }
 
-const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit, ref }) => {
+const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit, focusRef }) => {
   const navigate = useNavigate();
-  const headingRef = ref;
+  const headingRef = focusRef;
   const location = useLocation();
 
  useEffect(() => {
@@ -29,7 +29,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit, ref }) => {
       <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
         <ArrowLeft size={28} />
       </button>
-      <h1 ref={headingRef} className="page-title">{title}</h1>
+      <h1 ref={headingRef} className="page-title" tabIndex={0}>{title}</h1>
       <button className="nav-btn" aria-label="Exit tutorial" onClick={onExit}>
         <X size={28} />
       </button>
