@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, X } from "lucide-react";
 
 interface PageHeadingProps {
@@ -11,12 +11,18 @@ interface PageHeadingProps {
 const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit, ref }) => {
   const navigate = useNavigate();
   const headingRef = ref;
+  const location = useLocation();
 
-  useEffect(() => {
-        if (headingRef.current) {
-          headingRef.current.focus();
-        }
-      }, []);
+ useEffect(() => {
+    // Wait until after screen transition
+    const timeout = setTimeout(() => {
+      if (headingRef.current) {
+        headingRef.current.focus();
+      }
+    }, 100); // Slight delay helps on mobile
+
+    return () => clearTimeout(timeout);
+  }, [location.pathname]); // Re-focus on route change
 
   return (
     <div  className="page-heading">

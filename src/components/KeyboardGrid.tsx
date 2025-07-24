@@ -22,9 +22,9 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   taskID = 0,
   onClickContinue = () => {}
 }) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState("Tex box");
   const [pressedCells, setPressedCells] = useState<number[]>([]);
-  const [ariaMessage, setAriaMessage] = useState(text)
+  const [ariaMessage, setAriaMessage] = useState("")
   const [swipeCount, setSwipeCount] = useState(0);
   const [errors, setErrors] = useState(0);
   const [backspaces, setBackspaces] = useState(0);
