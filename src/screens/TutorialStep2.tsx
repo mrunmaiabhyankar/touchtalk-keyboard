@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Keyboard: React.FC = () => {
   const navigate = useNavigate();
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const handleExit = () => {
     // Handle tutorial exit (e.g., navigate to home or show a modal)
     navigate("/"); // Adjust the path as needed
@@ -23,8 +23,8 @@ const Keyboard: React.FC = () => {
   };
   return (
     <div className="page-container">
-      <div ref={headingRef} className="top-section">
-        <PageHeading title="Step 2: Letter Placement" onExit={handleExit} />
+      <div className="top-section">
+        <PageHeading title="Step 2: Letter Placement" onExit={handleExit} ref={headingRef}/>
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
         Double tap each cell to explore the letter layout. The middle row has 4 letters, while the top and bottom rows have 3 each. The bottom-right cell contains backspace and space. The 'Continue' button will appear once all cells are pressed, with focus shifting to it automatically.
         </p>
