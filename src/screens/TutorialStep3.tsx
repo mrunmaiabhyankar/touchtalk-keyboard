@@ -21,10 +21,7 @@ const Gestures: React.FC = () => {
       <div className="top-section">
         <PageHeading title="Step 3: Gestures" onExit={handleExit} ref={headingRef}/>
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
-        The keyboard is a 3x3 grid, navigated left to right, top to bottom.
-        Swiping right moves through the cells: 1–3 in the first row, 4–6 in the second,
-        and 7–9 in the third. Double-tap each cell to learn its position.
-        The 'Continue' button appears once all cells are pressed, with focus shifting to it automatically.
+        With a screen reader, double tap and hold to select the cell. After a slight haptic feedback, move your finger up, down, left, or right, then release to enter the character. Type all four directions to continue.
         </p>
       </div>
       <div className="grid-section">
