@@ -23,7 +23,7 @@ const TextBox: React.FC<TextBoxProps> = ({
         >
             <div
                 id="text"
-                role="textbox"
+                // role="textbox"
                 // aria-readonly="true"
                 aria-label={`Text box, ${value}`}
                 tabIndex={0}
