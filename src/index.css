@@ -103,7 +103,8 @@ html, body {
   /* height:100%; */
   font-size: 2rem;
   color: var(--text-light);
-  margin: 3rem 3rem;
+  margin: 3rem auto;
+  max-width: 400px;
   text-align: center;
   font-weight: bold;
   line-height: 1.5;
