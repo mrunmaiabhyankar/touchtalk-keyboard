@@ -7,12 +7,14 @@ interface TextBoxProps {
     showContinueButton: boolean // Show/hide the continue button
     nextPageLink?: string // Navigation link
     onClickContinue?: () => void;
+    continueButtonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 const TextBox: React.FC<TextBoxProps> = ({
     value = "Your Text Will Appear Here",
     showContinueButton = true,
-    onClickContinue = () => {}
+    onClickContinue = () => {},
+    continueButtonRef = React.createRef<HTMLButtonElement>(),
 }) => {
     const navigate = useNavigate();
     return (
@@ -37,6 +39,7 @@ const TextBox: React.FC<TextBoxProps> = ({
                         ? "Double tap to go to the next screen"
                         : "Complete all steps to continue"
                 }
+                ref={continueButtonRef}
                 style={{
                     // marginLeft: "12px",
                     // padding: "8px 16px",

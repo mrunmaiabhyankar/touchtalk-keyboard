@@ -68,15 +68,15 @@ const Home: React.FC = () => {
       <div style={{ textAlign: 'center', padding: '2rem', alignContent: 'center', height: '100vh'  }}>
         <h1 ref={headingRef}>TouchTalk</h1>
         <p>
-          The 3×3 keyboard layout is arranged in a simple 3×3 grid, with each cell containing 3 or 4 letters.
-          You can access the letters through swiping gestures. Let's learn how to use the keyboard.
+          Hi! Welcome to the Touchtalk accessibility study. The keyboard is arranged in a simple 3×3 grid, with each cell containing 3 or 4 letters.
+          You can access the letters through swiping gestures. You can complete today's task or follow the tutorial to understand how it works!
         </p>
         <div className='btn-grp'>
           <button className='primary-btn' onClick={() => navigate(nextPageLink)}>Today's task</button>
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
           <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
-        <p>Version v1.13</p>
+        <p>Version v1.14</p>
       </div>
     </div>
   );

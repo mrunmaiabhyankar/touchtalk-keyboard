@@ -29,9 +29,22 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   const [errors, setErrors] = useState(0);
   const [backspaces, setBackspaces] = useState(0);
   const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
 
   // const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"];
   // const taskID = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0;
+
+  useEffect(() => {
+  const allPressed = variant === "gridLayout" && pressedCells.length === 9;
+  const allSwiped = variant === "singleCell" && swipeCount === 4;
+
+  if (allPressed || allSwiped) {
+    // Defer slightly to allow rendering first
+    setTimeout(() => {
+      continueButtonRef.current?.focus();
+    }, 100);
+  }
+}, [pressedCells, swipeCount, variant]);
 
   useEffect(() => {
     setTaskStartTime(Date.now());
@@ -218,7 +231,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           id="live-region"
           aria-live="polite"
           aria-atomic="true"
-          role="status"
+          // role="status"
           tabIndex={-1}
           style={{
             position: 'absolute',
@@ -239,6 +252,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
         value={text}
         showContinueButton={showContinue}
         onClickContinue={handleContinue}
+        continueButtonRef={continueButtonRef}
       />
     </div>
   );
