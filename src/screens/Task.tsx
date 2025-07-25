@@ -89,7 +89,7 @@ useEffect(() => {
       <h1 className="page-title">{pageTitle}</h1>
     </header> */}
     <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/>
-        <p className='phrase-text'>
+        <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
         {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
         </p>
       </div>
