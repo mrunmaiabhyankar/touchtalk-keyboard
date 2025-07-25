@@ -31,7 +31,7 @@ const Practice: React.FC = () => {
         </p>
       </div>
       <div className="grid-section">
-      <KeyboardGrid variant="default" content="multiple" doesTap={false} onClickContinue={handleContinue} taskWord="VIBE" />
+      <KeyboardGrid variant="default" content="multiple" doesTap={false} onClickContinue={handleContinue} taskWord="HI THERE" />
     </div>
     </div>
   );

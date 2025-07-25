@@ -100,8 +100,7 @@ html, body {
   background-color: #2a2a2a;
   border-radius: 12px;
   padding: 1rem;
-  height: 50%;
-  max-height: 50%;
+  height:100%;
   font-size: 2rem;
   color: var(--text-light);
   margin: 3rem 3 rem;
