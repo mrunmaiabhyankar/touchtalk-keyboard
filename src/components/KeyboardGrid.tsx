@@ -201,8 +201,8 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
     >
       {variant === "singleCell" ? (
         <KeyboardCell
-          letters={["J", "K", "L", "M"]}
-          ariaLabel={"J,K,L,M"}
+          letters={["j", "k", "l", "m"]}
+          ariaLabel={"j,k,l,m"}
           onLetterSelected={(letter) => handleLetterSelected(letter, 3)}
           // onSwipe={handleSwipe}
           content={content}
