@@ -232,7 +232,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           aria-live="polite"
           aria-atomic="true"
           // role="status"
-          tabIndex={-1}
+          // tabIndex={-1}
           style={{
             position: 'absolute',
             width: '1px',
