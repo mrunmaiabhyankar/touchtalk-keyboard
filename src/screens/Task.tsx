@@ -56,6 +56,11 @@ useEffect(() => {
     // console.log("Tasks loaded for day - this is the latesttttttttttt:", tasks.length);
     // console.log("Phrase ID for current task:", tasks[currentIndex].phraseId);
     setPageTitle(`Day ${userDay} Task ${completedTasks+1}`);
+    if (headingRef.current) {
+      setTimeout(() => {
+        headingRef.current?.focus();
+      }, 100);
+    }
   }
 }, [tasks]);
 
@@ -82,13 +87,13 @@ useEffect(() => {
   return (
     <div className="page-container">
       <div className="top-section">
-        {/* <header className="page-heading">
+        <header className="page-heading">
       <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
         <ArrowLeft size={28} />
       </button>
-      <h1 className="page-title">{pageTitle}</h1>
-    </header> */}
-    <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/>
+      <h1 className="page-title" ref={headingRef}>{pageTitle}</h1>
+    </header>
+    {/* <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/> */}
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
         {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
         </p>
