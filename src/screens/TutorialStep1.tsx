@@ -31,7 +31,7 @@ const GridLayout: React.FC = () => {
         The keyboard is a 3x3 grid, navigated left to right, top to bottom.
         Swiping right moves through the cells: 1–3 in the first row, 4–6 in the second,
         and 7–9 in the third. Double-tap each cell to learn its position.
-        The 'Continue' button appears once all cells are pressed, with focus shifting to it automatically.
+        The 'Continue' button will be enabled once all cells are pressed, with focus shifting to it automatically.
         </p>
       </div>
       <div className="grid-section">

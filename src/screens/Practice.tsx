@@ -27,7 +27,7 @@ const Practice: React.FC = () => {
       <div className="top-section">
         <PageHeading title="Let's practice" onExit={handleExit} focusRef={headingRef}/>
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
-        Type the sentence 'Hi there' using the layout you've learned. Use the space key to separate words and the delete key to correct mistakes. The 'Continue' button will appear next to the text box once you're ready to proceed.
+        Type the sentence 'Hi there' using the layout you've learned. Use the space key to separate words and the delete key to correct mistakes. The 'Continue' button, present after the text box at the end of the keyboard, will be enabled as soon as you enter one character. Double tap the Continue button once you're ready to proceed.
         </p>
       </div>
       <div className="grid-section">
