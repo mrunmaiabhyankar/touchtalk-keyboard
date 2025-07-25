@@ -176,13 +176,19 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   };
 
   const gridLetters = [
-    ["A", "B", "C"], ["D", "E", "F"], ["G", "H", "I"],
-    ["J", "K", "L", "M"], ["N", "O", "P", "Q"], ["R", "S", "T", "U"],
-    ["V", "W", "X"], ["Y", "Z", "⇤"], ["␣", "", "⌫"]
+    ["a", "b", "c"], ["d", "e", "f"], ["g", "h", "i"],
+    ["j", "k", "l", "m"], ["n", "o", "p", "q"], ["r", "s", "t", "u"],
+    ["v", "w", "x"], ["y", "z", "⇤"], ["␣", "", "⌫"]
   ];
 
+  const ariaLabelData = [
+    "a, b, c", "d, e, f", "g, h, i",
+    "j, k, l, m", "n, o, p, q", "r, s, t, u",
+    "v, w, x", "y, z, clear all", "space, delete"
+  ];
+
+
   const gridCells = ["Cell 1", "Cell 2", "Cell 3", "Cell 4", "Cell 5", "Cell 6", "Cell 7", "Cell 8", "Cell 9"];
-  const ariaLabelData = ["A,B,C", "D,E,F", "G,H,I", "J,K,L,M", "N,O,P,Q", "R,S,T,U", "V,W,X", "Y,Z,Clear all", "Space,Delete"];
 
   const showContinue = shouldShowContinueButton();
 

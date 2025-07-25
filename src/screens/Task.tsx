@@ -87,14 +87,14 @@ useEffect(() => {
   return (
     <div className="page-container">
       <div className="top-section">
-        <header className="page-heading">
-      <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-        <ArrowLeft size={28} />
-      </button>
-      <h1 className="page-title" ref={headingRef}>{pageTitle}</h1>
-    </header>
-    {/* <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/> */}
-        <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
+        <div className="page-heading">
+          <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
+            <ArrowLeft size={28} />
+          </button>
+          <h1 className="page-title" ref={headingRef}>{pageTitle}</h1>
+        </div>
+        {/* <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/> */}
+        <p className="phrase-text">
         {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
         </p>
       </div>

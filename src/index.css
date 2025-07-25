@@ -240,7 +240,7 @@ button:hover {
   text-align: center;
   flex-grow: 1;
   overflow: auto;
-  height: 50%;
+  height: 75%;
   min-height: 50%;
   box-sizing: border-box;
 }
