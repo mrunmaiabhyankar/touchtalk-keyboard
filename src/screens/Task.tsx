@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PageHeading from '../components/PageHeading';
 import KeyboardGrid from '../components/KeyboardGrid';
 import { getAuth } from 'firebase/auth';
@@ -27,6 +27,9 @@ const Task: React.FC = () => {
   const [taskID, setTaskID] = useState<number>(0);
   // var pageTitle = `Loading Task...`;
   const [userDay, setUserDay] = useState<number>(1);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  
   useEffect(() => {
   const fetchTasks = async () => {
     setLoading(true);
@@ -79,12 +82,13 @@ useEffect(() => {
   return (
     <div className="page-container">
       <div className="top-section">
-        <header className="page-heading">
+        {/* <header className="page-heading">
       <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
         <ArrowLeft size={28} />
       </button>
       <h1 className="page-title">{pageTitle}</h1>
-    </header>
+    </header> */}
+    <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/>
         <p className='phrase-text'>
         {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
         </p>

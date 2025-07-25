@@ -15,7 +15,9 @@ const Home: React.FC = () => {
   
   useEffect(() => {
     if (headingRef.current) {
-      headingRef.current.focus();
+      setTimeout(() => {
+        headingRef.current?.focus();
+      }, 100);
     }
   }, []);
 
