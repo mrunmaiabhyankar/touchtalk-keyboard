@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { markSessionComplete } from '../services/taskService';
+// import { markSessionComplete } from '../services/taskService';
 import { getAuth } from 'firebase/auth';
 
 const DailyTasksDone: React.FC = () => {

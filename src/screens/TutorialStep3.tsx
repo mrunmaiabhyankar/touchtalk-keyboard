@@ -21,7 +21,7 @@ const Gestures: React.FC = () => {
       <div className="top-section">
         <PageHeading title="Step 3: Gestures" onExit={handleExit} focusRef={headingRef}/>
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
-        With a screen reader, double tap and hold to select the cell. After a slight haptic feedback, move your finger up, down, left, or right, then release to enter the character. The 'Continue' button will be enabled once you swipe in all 4 directions, with focus shifting to it automatically.
+        The keyboard region has just one cell (J,K,L,M) for you to practice the gestures. With a screen reader, double tap and hold to select the cell. After a slight haptic feedback, move your finger up, down, left, or right, then release to enter the character. The 'Continue' button will be enabled once you swipe in all 4 directions, with focus shifting to it automatically.
         </p>
       </div>
       <div className="grid-section">
