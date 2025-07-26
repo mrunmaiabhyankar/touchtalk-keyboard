@@ -196,10 +196,17 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
     <div
       tabIndex={0}
       role="group"
-      className="keyboard-grid"
-      style={{ height: "50vh", display: "flex", flexDirection: "column" }}
-    >
+      // className="keyboard-grid"
+      style={{
+        height: "45vh",
+        display: "flex",
+        flexDirection: "column",
+        padding: "0.5rem",
+        gap: "0.5rem" // optional spacing between grid & box
+      }}    
+      >
       {variant === "singleCell" ? (
+        <div style = {{}}>
         <KeyboardCell
           letters={["j", "k", "l", "m"]}
           ariaLabel={"j,k,l,m"}
@@ -208,13 +215,16 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           content={content}
           doesTap={false}
         />
+        </div>
       ) : (
         <div
           style={{
-            flex: 1,
+            // flex: 1,
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "repeat(3, 1fr)"
+            gridTemplateRows: "repeat(3, 1fr)",
+            gap: "2px",
+            flex:"3",
           }}
           // role="row"
           // aria-label="Keyboard region"
@@ -233,27 +243,27 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
           ))}
         </div>
       )}
-        <div
-          id="live-region"
-          aria-live="polite"
-          aria-atomic="true"
-          // role="status"
-          // tabIndex={-1}
-          style={{
-            position: 'absolute',
-            width: '1px',
-            height: '1px',
-            margin: '-1px',
-            padding: '0',
-            border: '0',
-            overflow: 'hidden',
-            clip: 'rect(0 0 0 0)',
-            clipPath: 'inset(50%)',
-            whiteSpace: 'nowrap',
-          }}
-          >
-          {ariaMessage}
-        </div>
+      <div
+        id="live-region"
+        aria-live="polite"
+        aria-atomic="true"
+        // role="status"
+        // tabIndex={-1}
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          margin: '-1px',
+          padding: '0',
+          border: '0',
+          overflow: 'hidden',
+          clip: 'rect(0 0 0 0)',
+          clipPath: 'inset(50%)',
+          whiteSpace: 'nowrap',
+        }}
+        >
+        {ariaMessage}
+      </div>
       <TextBox
         value={text}
         showContinueButton={showContinue}

@@ -24,6 +24,16 @@ const TextBox: React.FC<TextBoxProps> = ({
         >
             <div
                 id="text"
+                style={{
+                flex: 1,
+                padding: "0 1rem",
+                color: "white",
+                fontSize: "1.2rem",
+                display: "flex",
+                alignItems: "center",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+            }}
                 // role="textbox"
                 // aria-readonly="true"
                 aria-label={`Text box, ${value}`}
@@ -40,22 +50,35 @@ const TextBox: React.FC<TextBoxProps> = ({
                         : "Complete all steps to continue"
                 }
                 ref={continueButtonRef}
+                // style={{
+                //     backgroundColor: showContinueButton ? "#4a934a" : "#888",
+                //     color: "white",
+                //     cursor: showContinueButton ? "pointer" : "not-allowed",
+                //     display: "flex",
+                //     alignItems: "center",
+                //     justifyContent: "center",
+                //     height: "100%",
+                //     opacity: showContinueButton ? 1 : 0.6,
+                // }}
                 style={{
-                    // marginLeft: "12px",
-                    // padding: "8px 16px",
+                    width: "33.33%",
+                    height: "100%",
                     backgroundColor: showContinueButton ? "#4a934a" : "#888",
                     color: "white",
-                    // borderRadius: "5px",
-                    // height: "100%",
-                    cursor: showContinueButton ? "pointer" : "not-allowed",
-                    // fontSize: "12pt",
-                    // fontFamily: "Arial",
+                    // cursor: showContinueButton ? "pointer" : "not-allowed",
+
+                    border: "none",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    
-                    opacity: showContinueButton ? 1 : 0.6,
-                }}
+                    margin: "0",
+
+                    borderRadius: "16px",  // match right edge rounding
+                    // boxSizing: "border-box",
+                                }}
             >
     Continue
 </button>

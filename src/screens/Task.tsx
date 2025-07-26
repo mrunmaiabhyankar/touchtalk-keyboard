@@ -11,10 +11,7 @@ import { ArrowLeft } from 'lucide-react';
 const Task: React.FC = () => {
   const user = getAuth().currentUser;
   const handleExit = () => {
-    // Handle tutorial exit (e.g., navigate to home or show a modal)
     navigate("/"); // Adjust the path as needed
-    
-    // console.log("Task exited");
   };
 
   const { tasks, loadTasks, popTask } = useTask();
@@ -25,7 +22,6 @@ const Task: React.FC = () => {
   const navigate = useNavigate();
   const [pageTitle, setPageTitle] = useState<string>('');
   const [taskID, setTaskID] = useState<number>(0);
-  // var pageTitle = `Loading Task...`;
   const [userDay, setUserDay] = useState<number>(1);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -34,12 +30,9 @@ const Task: React.FC = () => {
   const fetchTasks = async () => {
     setLoading(true);
     const day = await getUserCurrentDay(user?.uid || ''); // fetch the user's current day
-    // console.log("User's current day:", day);
     if (day !== null) {
       setUserDay(day); 
       await loadTasks(day); // fetch tasks using the day
-      // console.log("Tasks loaded for day", day, ":", tasks);
-      
     }
     setLoading(false);
   };
@@ -51,16 +44,7 @@ const Task: React.FC = () => {
 
 useEffect(() => {
   if (tasks.length > 0) {
-    // console.log("Tasks updated:", tasks[currentIndex].phraseId);
-    // setCompletedTasks(0);
-    // console.log("Tasks loaded for day - this is the latesttttttttttt:", tasks.length);
-    // console.log("Phrase ID for current task:", tasks[currentIndex].phraseId);
     setPageTitle(`Day ${userDay} Task ${completedTasks+1}`);
-    // if (headingRef.current) {
-    //   setTimeout(() => {
-    //     headingRef.current?.focus();
-    //   }, 100);
-    // }
   }
 }, [tasks]);
 
@@ -87,16 +71,13 @@ useEffect(() => {
   return (
     <div className="page-container">
       <div className="top-section">
-        {/* <div className="page-heading">
-          <button  className="nav-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-            <ArrowLeft size={28} />
-          </button>
-          <h1 className="page-title" ref={headingRef}>{pageTitle}</h1>
-        </div> */}
         <PageHeading title={pageTitle} onExit={handleExit} focusRef={headingRef}/>
-        <p className="phrase-text">
-        {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
-        </p>
+        <div className="phrase-wrapper">
+          <p className="phrase-text">
+          {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
+          </p>
+        </div>
+        {/* <p>Another paragraph which doesn't seem to be visible</p> */}
       </div>
       <div className="grid-section">
       <KeyboardGrid 

@@ -30,7 +30,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ title, onExit, focusRef }) =>
         <ArrowLeft size={28} />
       </button>
       <h1 ref={headingRef} className="page-title" tabIndex={0}>{title}</h1>
-      <button className="nav-btn" aria-label="Exit tutorial" onClick={onExit}>
+      <button className="nav-btn" aria-label="Exit" onClick={onExit}>
         <X size={28} />
       </button>
     </div>
