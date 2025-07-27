@@ -61,7 +61,7 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
 
   const handleDragEnd = () => {
 
-    if (selectedLetter && onLetterSelected) {
+    if (selectedLetter && onLetterSelected && !doesTap) {
       onLetterSelected(selectedLetter, 0);
       var ariaMessage = `Selected ${selectedLetter}`;
       const specialChars = ["␣", "⇤", "⌫"];
