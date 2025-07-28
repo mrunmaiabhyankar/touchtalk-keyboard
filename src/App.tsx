@@ -14,6 +14,9 @@ import { TaskProvider } from "./screens/TaskContext";
 import ErrorFallback from "./screens/ErrorScreen";
 import { ErrorBoundary } from "react-error-boundary";
 import Register from "./screens/Register";
+import BonusTask from "./screens/Bonus-Task";
+import ThankYouFinal from "./screens/ThankYou-Final";
+import BonusTaskQ from "./screens/Bonus-Task-Q";
 
 const App: React.FC = () => {
 
@@ -40,6 +43,9 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/tutorial-done" element={<TutorialDone />} />
         <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/bonus-task" element={<BonusTask />} />
+        <Route path="/bonus-qwerty" element={<BonusTaskQ />} />
+        <Route path="/thank-you-final" element={<ThankYouFinal />} />
         <Route path="/tasks-done" element={<DailyTasksDone />} />
         <Route path="/" element={<Home/>} />
         <Route path="/task" element={<TaskProvider><Task1 /></TaskProvider>} />

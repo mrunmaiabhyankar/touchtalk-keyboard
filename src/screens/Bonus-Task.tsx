@@ -8,7 +8,7 @@ import { useTask } from './TaskContext';
 import { ArrowLeft } from 'lucide-react';
 
 
-const Task: React.FC = () => {
+const BonusTask: React.FC = () => {
   const user = getAuth().currentUser;
   const handleExit = () => {
     navigate("/"); // Adjust the path as needed
@@ -29,8 +29,8 @@ const Task: React.FC = () => {
   useEffect(() => {
   const fetchTasks = async () => {
     setLoading(true);
-    const day = await getUserCurrentDay(user?.uid || ''); // fetch the user's current day
-    if (day !== null && day <=5) {
+    const day = 6; // fetch the user's current day
+    if (day !== null) {
       setUserDay(day); 
       await loadTasks(day); // fetch tasks using the day
     }
@@ -50,9 +50,9 @@ useEffect(() => {
 
 useEffect(() => {
   if (!loading && tasks.length === 0) {
-    markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
-    if(userDay == 7){
-      navigate("/thank-you");
+    // markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
+    if(userDay == 6){
+      navigate("/bonus-qwerty");
     }
     navigate("/tasks-done");
   }
@@ -61,7 +61,7 @@ useEffect(() => {
   const handleContinue = () => {
     popTask();
     setCompletedTasks(prev => prev + 1);
-    navigate("/task"); // reload same page with new task
+    navigate("/bonus-task"); // reload same page with new task
   };
 
   useEffect(() => {
@@ -88,4 +88,4 @@ useEffect(() => {
   );
 };
 
-export default Task;
+export default BonusTask;

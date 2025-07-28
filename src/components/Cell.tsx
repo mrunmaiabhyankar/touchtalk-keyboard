@@ -63,7 +63,7 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
 
     if (selectedLetter && onLetterSelected && !doesTap) {
       onLetterSelected(selectedLetter, 0);
-      var ariaMessage = `Selected ${selectedLetter}`;
+      var ariaMessage = `Entered ${selectedLetter}`;
       const specialChars = ["␣", "⇤", "⌫"];
 
       if (specialChars.includes(selectedLetter)) {

@@ -8,7 +8,7 @@ import { useTask } from './TaskContext';
 import { ArrowLeft } from 'lucide-react';
 
 
-const Task: React.FC = () => {
+const BonusTaskQ: React.FC = () => {
   const user = getAuth().currentUser;
   const handleExit = () => {
     navigate("/"); // Adjust the path as needed
@@ -16,6 +16,7 @@ const Task: React.FC = () => {
 
   const { tasks, loadTasks, popTask } = useTask();
   // const [tasks, setTasks] = useState<string[]>([]);
+  const [taskPhrase, setTaskPhrase] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [completedTasks, setCompletedTasks] = useState(0);
@@ -29,8 +30,8 @@ const Task: React.FC = () => {
   useEffect(() => {
   const fetchTasks = async () => {
     setLoading(true);
-    const day = await getUserCurrentDay(user?.uid || ''); // fetch the user's current day
-    if (day !== null && day <=5) {
+    const day = 6; // fetch the user's current day
+    if (day !== null) {
       setUserDay(day); 
       await loadTasks(day); // fetch tasks using the day
     }
@@ -50,18 +51,15 @@ useEffect(() => {
 
 useEffect(() => {
   if (!loading && tasks.length === 0) {
-    markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
-    if(userDay == 7){
-      navigate("/thank-you");
-    }
-    navigate("/tasks-done");
+    // markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
+    navigate("/thank-you-final");
   }
 }, [tasks, loading]);
 
   const handleContinue = () => {
     popTask();
     setCompletedTasks(prev => prev + 1);
-    navigate("/task"); // reload same page with new task
+    navigate("/bonus-task"); // reload same page with new task
   };
 
   useEffect(() => {
@@ -79,13 +77,22 @@ useEffect(() => {
         </div>
         {/* <p>Another paragraph which doesn't seem to be visible</p> */}
       </div>
-      <div className="grid-section">
+      {/* <div className="grid-section">
       <KeyboardGrid 
       key={0}     
       variant="default" content="multiple" doesTap={false} onClickContinue={handleContinue} taskID={tasks[currentIndex]?.phraseId || 0} taskWord={tasks[currentIndex]?.phrase || "this is sample"} />
-    </div>
+    </div> */}
+    <input
+            
+            placeholder="Enter task phrase"
+            value={taskPhrase}
+            onChange={(e) => setTaskPhrase(e.target.value)}
+            required
+            style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
+          />
+          <button  className='primary-btn' onClick={handleContinue}></button>
     </div>
   );
 };
 
-export default Task;
+export default BonusTaskQ;
