@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { motion } from "framer-motion";
 import { logAnalyticsEvent } from "../utils/analyticsFunctions";
 
@@ -55,6 +55,7 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
       logAnalyticsEvent("swipe_direction", {
         direction,
         targetKey: ariaLabel,
+        userId: localStorage.getItem("userUid") || "no-user-id",
       });
     }
   };

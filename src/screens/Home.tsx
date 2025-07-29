@@ -26,6 +26,7 @@ const Home: React.FC = () => {
       if (user) {
       localStorage.setItem("userEmail", user.email || "");
       localStorage.setItem("userUid", user.uid || "");
+      
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userUid");
@@ -81,7 +82,7 @@ const Home: React.FC = () => {
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
           <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
-        <p>Version v1.25</p>
+        <p>Version v1.26</p>
       </div>
     </div>
   );

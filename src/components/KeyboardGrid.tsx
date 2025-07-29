@@ -30,6 +30,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   const [backspaces, setBackspaces] = useState(0);
   const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
   const continueButtonRef = useRef<HTMLButtonElement>(null);
+  const userId = localStorage.getItem("userUid") || "no-user-id";
 
   // const tasks = ["VIBE", "ICED", "CAFE LATTE", "ICED CAFE LATTE"];
   // const taskID = tasks.indexOf(taskWord) >= 0 ? tasks.indexOf(taskWord) : 0;
@@ -55,7 +56,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   const handleCharacterInput = (inputChar: string, expectedChar: string) => {
     if (inputChar !== expectedChar && inputChar !== "⌫") {
       setErrors(prev => prev + 1);
-      logAnalyticsEvent("error_character", { inputChar, expectedChar, taskID });
+      logAnalyticsEvent("error_character", { inputChar, expectedChar, taskID, userId });
     }
   };
 
@@ -93,7 +94,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
         setTimeout(() => {
           setAriaMessage(`Deleted ${deletedChar}`)
           }, 10)
-        logAnalyticsEvent("backspace", { taskID });
+        logAnalyticsEvent("backspace", { taskID, userId, deletedChar });
         } else{
           setAriaMessage("No character to delete");
         }
@@ -101,7 +102,7 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       case "⇤":
         newText = "";
         setAriaMessage(`Entered Clear all`)
-        logAnalyticsEvent("clear_all", { taskID });
+        logAnalyticsEvent("clear_all", { taskID, userId });
         break;
       case "␣":
         newText += " ";
@@ -140,24 +141,26 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
   };
 
   const completeTask = (success: boolean) => {
-    logAnalyticsEvent("task_completed", { taskID, success });
+    logAnalyticsEvent("task_completed", { taskID, success, userId });
   };
 
   const endTask = () => {
     if (taskStartTime) {
       const duration = (Date.now() - taskStartTime) / 1000;
-      logAnalyticsEvent("phrase_duration", { duration, taskID });
+      logAnalyticsEvent("phrase_duration", { duration, taskID, userId });
     }
 
     logAnalyticsEvent("swipes_per_character", {
       swipes: swipeCount,
       characters: text.length,
-      taskID
+      taskID,
+      userId
     });
 
     logAnalyticsEvent("backspace_per_phrase", {
       count: backspaces,
-      taskID
+      taskID,
+      userId
     });
 
     const errorRate = (errors / (taskWord.length || 1)) * 100;
@@ -165,7 +168,8 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
       errorRate,
       errors,
       length: taskWord.length,
-      taskID
+      taskID,
+      userId
     });
   };
 
