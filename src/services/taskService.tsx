@@ -66,6 +66,11 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<string> => 
   const lastSeen = userData.lastSeen?.toDate?.() || new Date(0);
   const today = new Date();
 
+  const userDay = userData.sessionCount || 0;
+  if (userDay > 5) {
+    return "bonus"; // User has completed more than 5 sessions, return false
+  }
+
   const lastSeenLocal = new Date(
     today.getFullYear(),
     today.getMonth(),

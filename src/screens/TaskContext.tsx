@@ -21,7 +21,7 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
   const [tasks, setTasks] = useState<{ phraseId: number; phrase: string }[]>([]);
 
   const loadTasks = async (day: number) => {
-    const fetched = await fetchTaskPhrasesByDay(day); 
+    const fetched = (await fetchTaskPhrasesByDay(day)).sort((a, b) => a.phraseId - b.phraseId); 
     // console.log("Fetched tasks for day", day, ":", fetched);
     setTasks(fetched);
   };

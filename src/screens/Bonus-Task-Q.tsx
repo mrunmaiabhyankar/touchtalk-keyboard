@@ -59,7 +59,8 @@ useEffect(() => {
   const handleContinue = () => {
     popTask();
     setCompletedTasks(prev => prev + 1);
-    navigate("/bonus-task"); // reload same page with new task
+    setTaskPhrase('');
+    navigate("/bonus-qwerty"); // reload same page with new task
   };
 
   useEffect(() => {
@@ -74,23 +75,22 @@ useEffect(() => {
           <p className="phrase-text">
           {tasks.length > 0 ? tasks[currentIndex].phrase : "Loading task..."}
           </p>
-        </div>
-        {/* <p>Another paragraph which doesn't seem to be visible</p> */}
-      </div>
-      {/* <div className="grid-section">
-      <KeyboardGrid 
-      key={0}     
-      variant="default" content="multiple" doesTap={false} onClickContinue={handleContinue} taskID={tasks[currentIndex]?.phraseId || 0} taskWord={tasks[currentIndex]?.phrase || "this is sample"} />
-    </div> */}
-    <input
-            
+          <input
             placeholder="Enter task phrase"
             value={taskPhrase}
             onChange={(e) => setTaskPhrase(e.target.value)}
             required
-            style={{ padding: 8, fontSize: 16, maxWidth: '24rem', marginBottom: 8 }}
+            style={{ padding: '1rem', fontSize: 16, maxWidth: '24rem' }}
           />
-          <button  className='primary-btn' onClick={handleContinue}></button>
+          <button  className='primary-btn' onClick={handleContinue}>Continue</button>
+        </div>
+        <div style={{ display: 'flex', flex:'1', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '2rem', height: '40vh', gap: '0.75em'}}>
+          
+        </div>
+        {/* <p>Another paragraph which doesn't seem to be visible</p> */}
+      </div>
+      
+      
     </div>
   );
 };

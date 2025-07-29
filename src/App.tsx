@@ -43,8 +43,8 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/tutorial-done" element={<TutorialDone />} />
         <Route path="/thank-you" element={<ThankYou />} />
-        <Route path="/bonus-task" element={<BonusTask />} />
-        <Route path="/bonus-qwerty" element={<BonusTaskQ />} />
+        <Route path="/bonus-task" element={<TaskProvider><BonusTask /></TaskProvider>} />
+        <Route path="/bonus-qwerty" element={<TaskProvider><BonusTaskQ /></TaskProvider>} />
         <Route path="/thank-you-final" element={<ThankYouFinal />} />
         <Route path="/tasks-done" element={<DailyTasksDone />} />
         <Route path="/" element={<Home/>} />

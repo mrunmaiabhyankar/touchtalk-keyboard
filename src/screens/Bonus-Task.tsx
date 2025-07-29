@@ -51,10 +51,8 @@ useEffect(() => {
 useEffect(() => {
   if (!loading && tasks.length === 0) {
     // markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
-    if(userDay == 6){
-      navigate("/bonus-qwerty");
-    }
-    navigate("/tasks-done");
+    
+    navigate("/bonus-qwerty");
   }
 }, [tasks, loading]);
 

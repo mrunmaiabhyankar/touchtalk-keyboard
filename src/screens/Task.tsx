@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import PageHeading from '../components/PageHeading';
 import KeyboardGrid from '../components/KeyboardGrid';
 import { getAuth } from 'firebase/auth';
@@ -30,8 +30,9 @@ const Task: React.FC = () => {
   const fetchTasks = async () => {
     setLoading(true);
     const day = await getUserCurrentDay(user?.uid || ''); // fetch the user's current day
+    console.log("User's current day:", day);
+    setUserDay(day || 1); 
     if (day !== null && day <=5) {
-      setUserDay(day); 
       await loadTasks(day); // fetch tasks using the day
     }
     setLoading(false);
@@ -50,11 +51,19 @@ useEffect(() => {
 
 useEffect(() => {
   if (!loading && tasks.length === 0) {
-    markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
-    if(userDay == 7){
+    console.log(userDay);
+    if(userDay <= 5){
+      markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
+      navigate("/tasks-done");
+    }
+    if(userDay === 5){
       navigate("/thank-you");
     }
-    navigate("/tasks-done");
+    else if(userDay > 5){
+      navigate("/bonus-task");
+    }
+    
+    
   }
 }, [tasks, loading]);
 

@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isSessionAlreadyComplete } from '../services/taskService';
+import { getUserCurrentDay, isSessionAlreadyComplete } from '../services/taskService';
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { initializeUserAnalytics } from '../utils/analyticsFunctions';
@@ -53,6 +53,9 @@ const Home: React.FC = () => {
     } else if (alreadyCompleted === "login") {
       // User is not logged in or session is not complete
       navigate("/login");
+    } else if (alreadyCompleted === "bonus") {
+      // User has completed more than 5 sessions, redirect to bonus task
+      setNextPageLink("/thank-you");
     }
   };
 
