@@ -52,11 +52,9 @@ useEffect(() => {
 useEffect(() => {
   if (!loading && tasks.length === 0) {
     console.log(userDay);
-    if(userDay <= 5){
-      markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
-      navigate("/tasks-done");
-    }
+    
     if(userDay === 5){
+      markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
       navigate("/thank-you");
     }
     else if(userDay > 5){
