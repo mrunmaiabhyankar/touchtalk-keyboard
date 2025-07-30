@@ -50,7 +50,7 @@ export const markSessionComplete = async (uid: string): Promise<void> => {
   // console.log("Last seen:", lastSeen.toLocaleDateString(), "Now:", now.toLocaleDateString(), "Is new day:", isNewDay);
   if (isNewDay) {
     await updateDoc(userRef, {
-      sessionCount: (userData.sessionCount || 1) + 1,
+      sessionCount: (userData.sessionCount || 0) + 1,
       lastSeen: now,
     });
   }
@@ -71,21 +71,25 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<string> => 
     return "bonus"; // User has completed more than 5 sessions, return false
   }
 
-  const lastSeenLocal = new Date(
+  const todayLocal = new Date(
     today.getFullYear(),
     today.getMonth(),
     today.getDate()
   );
 
-  const seenLocal = new Date(
+  const lastSeenLocal = new Date(
     lastSeen.getFullYear(),
     lastSeen.getMonth(),
     lastSeen.getDate()
   );
 
-  // Compare local day difference
-  const dayDifference =
-    (lastSeenLocal.getTime() - seenLocal.getTime()) / (1000 * 60 * 60 * 24);
+  const normalizeDate = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  const lastSeenDate = normalizeDate(lastSeenLocal);
+  const todayDate = normalizeDate(new Date());
+
+  const dayDifference = (todayDate.getTime() - lastSeenDate.getTime()) / (1000 * 60 * 60 * 24);
 
   const isSameLocalDay = dayDifference === 0;
   // console.log("Last session was on:", lastSeen.toLocaleDateString());

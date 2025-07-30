@@ -47,6 +47,7 @@ useEffect(() => {
   if (tasks.length > 0) {
     setPageTitle(`Day ${userDay} Task ${completedTasks+1}`);
   }
+  
 }, [tasks]);
 
 useEffect(() => {
