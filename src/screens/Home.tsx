@@ -40,6 +40,7 @@ const Home: React.FC = () => {
   useEffect(() => {
   const checkIfTasksNeeded = async () => {
     const uid = localStorage.getItem("userUid") || '';
+    console.log("Checking tasks for user ID:", uid);
     const alreadyCompleted = await isSessionAlreadyComplete(uid);
     console.log("User ID:", uid);
     console.log("Already completed today's tasks:", alreadyCompleted);
@@ -82,7 +83,7 @@ const Home: React.FC = () => {
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
           <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
-        <p>Version v1.27</p>
+        <p>Version v1.28</p>
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (!loading && tasks.length === 0) {
-    // markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
+    markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
     
     navigate("/bonus-qwerty");
   }

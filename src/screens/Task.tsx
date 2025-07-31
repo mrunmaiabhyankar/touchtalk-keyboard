@@ -31,15 +31,17 @@ const Task: React.FC = () => {
     setLoading(true);
     const day = await getUserCurrentDay(user?.uid || ''); // fetch the user's current day
     console.log("User's current day:", day);
-    setUserDay(day || 1); 
+    
     if (day !== null && day <=5) {
-      await loadTasks(day); // fetch tasks using the day
+      setUserDay(day+1); 
+      await loadTasks(day+1); // fetch tasks using the day
     }
     setLoading(false);
   };
 
   if (tasks.length === 0) {
     fetchTasks();
+    console.log("Tasks loaded for day:", tasks);
   }
 }, []);
 
@@ -52,7 +54,11 @@ useEffect(() => {
 useEffect(() => {
   if (!loading && tasks.length === 0) {
     console.log(userDay);
-    
+    console.log("All tasks loaded.");
+    if (userDay < 5){
+      markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
+      navigate("/tasks-done");
+    }
     if(userDay === 5){
       markSessionComplete(user?.uid || ''); // Mark the session as complete for the user
       navigate("/thank-you");
