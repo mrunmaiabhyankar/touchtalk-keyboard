@@ -17,6 +17,7 @@ import Register from "./screens/Register";
 import BonusTask from "./screens/Bonus-Task";
 import ThankYouFinal from "./screens/ThankYou-Final";
 import BonusTaskQ from "./screens/Bonus-Task-Q";
+import Test from "./screens/Test";
 
 const App: React.FC = () => {
 
@@ -39,6 +40,7 @@ const App: React.FC = () => {
         <Route path="/tutorial-3" element={<Gestures />} />
         <Route path="/tutorial-2" element={<Keyboard />} />
         <Route path="/practice" element={<Practice />} />
+        <Route path="/test" element={<Test />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/tutorial-done" element={<TutorialDone />} />
