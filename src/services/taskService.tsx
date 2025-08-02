@@ -67,7 +67,7 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<string> => 
   const today = new Date();
 
   const userDay = userData.sessionCount || 0;
-  if (userDay > 5) {
+  if (userDay >= 5) {
     return "bonus"; // User has completed more than 5 sessions, return bonus
   }
 
