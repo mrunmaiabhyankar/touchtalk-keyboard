@@ -16,17 +16,17 @@ const Test: React.FC = () => {
 
   const handleContinue = () => {
     // Logic to handle the continue action
-    navigate("/tutorial-done"); // Navigate to the next tutorial step
+    navigate("/"); // Navigate to the next tutorial step
   };
 
   useEffect(() => {
-    document.title = "Practice | TouchTalk";
+    document.title = "Test mode | TouchTalk";
   }, []);
 
   return (
     <div className="page-container">
       <div className="top-section">
-        <PageHeading title="Let's practice" onExit={handleExit} focusRef={headingRef}/>
+        <PageHeading title="Internal testing!" onExit={handleExit} focusRef={headingRef}/>
         <p style={{ maxWidth: "400px", margin: "3rem auto", lineHeight: "1.5"}}>
         For internal testing: Type "Testing testing testing"
         </p>
