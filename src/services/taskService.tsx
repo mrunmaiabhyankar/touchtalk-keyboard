@@ -68,7 +68,7 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<string> => 
 
   const userDay = userData.sessionCount || 0;
   if (userDay > 5) {
-    return "bonus"; // User has completed more than 5 sessions, return false
+    return "bonus"; // User has completed more than 5 sessions, return bonus
   }
 
   const todayLocal = new Date(
@@ -87,7 +87,7 @@ export const isSessionAlreadyComplete = async (uid: string): Promise<string> => 
   new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
   const lastSeenDate = normalizeDate(lastSeenLocal);
-  const todayDate = normalizeDate(new Date());
+  const todayDate = normalizeDate(todayLocal);
 
   const dayDifference = (todayDate.getTime() - lastSeenDate.getTime()) / (1000 * 60 * 60 * 24);
 
