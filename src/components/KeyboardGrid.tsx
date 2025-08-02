@@ -101,12 +101,12 @@ const KeyboardGrid: React.FC<KeyboardGridProps> = ({
         break;
       case "⇤":
         newText = "";
-        setAriaMessage(`Entered Clear all`)
+        // setAriaMessage(`Entered Clear all`)
         logAnalyticsEvent("clear_all", { taskID, userId });
         break;
       case "␣":
         newText += " ";
-        setAriaMessage("Entered Space")
+        // setAriaMessage("Entered Space")
         break;
       default:
         if (variant === "gridLayout" && content === "single") {

@@ -64,7 +64,7 @@ useEffect(() => {
       navigate("/thank-you");
     }
     else if(userDay > 5){
-      navigate("/bonus-task");
+      navigate("/thank-you");
     }
     
     

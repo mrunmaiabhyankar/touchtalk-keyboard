@@ -65,11 +65,18 @@ const KeyboardCell: React.FC<KeyboardCellProps> = ({
     if (selectedLetter && onLetterSelected && !doesTap) {
       onLetterSelected(selectedLetter, 0);
       var ariaMessage = `Entered ${selectedLetter}`;
-      const specialChars = ["␣", "⇤", "⌫"];
+      if (selectedLetter === "␣") {
+        ariaMessage = "Entered Space";
+      } else if (selectedLetter === "⇤") {
+        ariaMessage = "Entered Clear All";
+      } else if (selectedLetter === "⌫") {
+        ariaMessage = "";
+      }
+      // const specialChars = ["␣", "⇤", "⌫"];
 
-      if (specialChars.includes(selectedLetter)) {
-                ariaMessage = "";
-            }
+      // if (specialChars.includes(selectedLetter)) {
+      //           ariaMessage = "";
+      //       }
 
       const liveRegion = document.getElementById("live-region");
       if (liveRegion) {

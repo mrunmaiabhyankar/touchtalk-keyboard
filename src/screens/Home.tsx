@@ -83,7 +83,7 @@ const Home: React.FC = () => {
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
           <button className='secondary-btn' onClick={() => navigate('/test')}>Logout</button>
         </div>
-        <p>Version v1.28</p>
+        <p>Version v1.29</p>
       </div>
     </div>
   );
