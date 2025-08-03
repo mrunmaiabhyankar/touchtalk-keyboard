@@ -93,7 +93,13 @@ const KeyboardGridTest: React.FC<KeyboardGridTestProps> = ({
         newText = newText.slice(0, -1);
         setAriaMessage("")
         setTimeout(() => {
-          setAriaMessage(`Deleted ${deletedChar}`)
+          if(deletedChar === " "){
+            setAriaMessage(`Deleted Space`);
+          }
+          else{
+            setAriaMessage(`Deleted ${deletedChar}`)
+          }
+          
           }, 10)
         logAnalyticsEvent("backspace", { taskID, userId, deletedChar });
         } else{
