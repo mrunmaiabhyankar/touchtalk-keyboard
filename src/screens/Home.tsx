@@ -81,9 +81,9 @@ const Home: React.FC = () => {
         <div className='btn-grp'>
           <button className='primary-btn' onClick={() => navigate(nextPageLink)}>Today's task</button>
           <button className='secondary-btn' onClick={() => navigate('/tutorial-1')}>Tutorial</button>
-          <button className='secondary-btn' onClick={() => navigate('/test')}>Logout</button>
+          <button className='secondary-btn' onClick={() => logout()}>Logout</button>
         </div>
-        <p>Version v1.31</p>
+        <p>Version v1.32</p>
       </div>
     </div>
   );
