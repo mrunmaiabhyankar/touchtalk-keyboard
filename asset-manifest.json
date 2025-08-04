@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/touchtalk-keyboard/static/css/main.171f8de2.css",
-    "main.js": "/touchtalk-keyboard/static/js/main.16a71393.js",
+    "main.js": "/touchtalk-keyboard/static/js/main.ae77363b.js",
     "index.html": "/touchtalk-keyboard/index.html",
     "main.171f8de2.css.map": "/touchtalk-keyboard/static/css/main.171f8de2.css.map",
-    "main.16a71393.js.map": "/touchtalk-keyboard/static/js/main.16a71393.js.map"
+    "main.ae77363b.js.map": "/touchtalk-keyboard/static/js/main.ae77363b.js.map"
   },
   "entrypoints": [
     "static/css/main.171f8de2.css",
-    "static/js/main.16a71393.js"
+    "static/js/main.ae77363b.js"
   ]
 }
